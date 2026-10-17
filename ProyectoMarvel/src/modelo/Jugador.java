@@ -3,6 +3,7 @@ package modelo;
 
 
 public class Jugador {
+    // atributos
     private String username ;
     private String  contrasena ;
     private int puntos = 0 ;
