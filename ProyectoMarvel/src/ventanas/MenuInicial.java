@@ -22,7 +22,7 @@ public class MenuInicial extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(500, 400));
 
         BtnSalir.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        BtnSalir.setText("SALIR");
+        BtnSalir.setText("Salir");
         BtnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnSalirActionPerformed(evt);
@@ -76,7 +76,8 @@ public class MenuInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoginActionPerformed
-       
+       Login ventana = new Login (control) ;
+       ventana.setVisible(true) ;
     }//GEN-LAST:event_BtnLoginActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed
