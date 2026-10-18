@@ -34,12 +34,12 @@ public class ControlUsuarios {
     }
 
     if (buscarjugador(username) != null) {
-        throw new UsuarioDuplicadoException("Ese nombre ya existe");
+        throw new UsuarioDuplicadoException("Ese username ya existe");
     }
 
     Jugador nuevo = new Jugador(username, password);
     listaJugadores.add(nuevo);
-    UsuariosH =  UsuariosH ++ ;
+    UsuariosH =  UsuariosH +1 ;
 }
  // metodo 
 public Jugador login(String username, String password)
