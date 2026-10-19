@@ -22,10 +22,10 @@ private Jugador jugadorActual ;
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Bperfil = new javax.swing.JButton();
+        BpartidaNueva = new javax.swing.JButton();
         BCerrarSeccion = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        BUniverso = new javax.swing.JButton();
         lmensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -35,11 +35,16 @@ private Jugador jugadorActual ;
         jLabel1.setText("Marvel Heroes Stratego");
         jLabel1.setToolTipText("");
 
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setText("MI PERFIL");
+        Bperfil.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        Bperfil.setText("MI PERFIL");
+        Bperfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BperfilActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton2.setText("PARTIDA NUEVA");
+        BpartidaNueva.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BpartidaNueva.setText("PARTIDA NUEVA");
 
         BCerrarSeccion.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         BCerrarSeccion.setText("CERRAR SESIÓN");
@@ -49,8 +54,8 @@ private Jugador jugadorActual ;
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton4.setText("UNIVERSO MARVEL");
+        BUniverso.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BUniverso.setText("UNIVERSO MARVEL");
 
         lmensaje.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
 
@@ -63,9 +68,9 @@ private Jugador jugadorActual ;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BpartidaNueva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Bperfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BUniverso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BCerrarSeccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -81,11 +86,11 @@ private Jugador jugadorActual ;
                 .addGap(10, 10, 10)
                 .addComponent(lmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BpartidaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Bperfil, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BUniverso, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(BCerrarSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(52, Short.MAX_VALUE))
@@ -102,13 +107,18 @@ private Jugador jugadorActual ;
         dispose();
     }//GEN-LAST:event_BCerrarSeccionActionPerformed
 
+    private void BperfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BperfilActionPerformed
+     MiPerfil perfil = new MiPerfil(control, jugadorActual, this);
+        perfil.setVisible(true);
+    }//GEN-LAST:event_BperfilActionPerformed
+
     
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BCerrarSeccion;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton BUniverso;
+    private javax.swing.JButton BpartidaNueva;
+    private javax.swing.JButton Bperfil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lmensaje;
     // End of variables declaration//GEN-END:variables
