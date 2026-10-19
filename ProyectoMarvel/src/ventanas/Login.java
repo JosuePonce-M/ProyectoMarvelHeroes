@@ -6,11 +6,13 @@ import excepciones.CredencialesInvalidosException ;
 import javax.swing.JOptionPane ;
 public class Login extends javax.swing.JFrame {
 private ControlUsuarios control ;
+private MenuInicial menuInicial ;
    
-    public Login(ControlUsuarios control) {
+    public Login(ControlUsuarios control , MenuInicial menuInicial) {
         
         initComponents();
         this.control = control ;
+        this.menuInicial = menuInicial ;
     }
 
        @SuppressWarnings("unchecked")
@@ -118,8 +120,10 @@ private ControlUsuarios control ;
      contrasena = txtPassword.getText() ;
     
      Jugador jugador = control.login(username, contrasena) ;
-     JOptionPane.showMessageDialog(this, "Bienvenido " +username) ;
-     dispose () ;
+     menuInicial.dispose () ;
+     MenuPrincipal menu = new MenuPrincipal(control, jugador);
+     menu.setVisible(true);
+dispose();
 } catch (CredencialesInvalidosException e) {
     JOptionPane.showMessageDialog(this, e.getMessage());
 }

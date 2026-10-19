@@ -76,8 +76,8 @@ public class MenuInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoginActionPerformed
-       Login ventana = new Login (control) ;
-       ventana.setVisible(true) ;
+       Login ventana = new Login(control, this);
+        ventana.setVisible(true);
     }//GEN-LAST:event_BtnLoginActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed
