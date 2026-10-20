@@ -58,20 +58,27 @@ if (!jugador.getContrasena().equals(password)) {
 return jugador;
 }
  // metodo cambiar contraseña
- public void cambiarPassword(Jugador jugador , String nueva)
-         throws PasswordInvalidoException {
-     if (nueva.length() != 5) {
-        throw new PasswordInvalidoException("El password debe tener exactamente 5 caracteres");
+   public void cambiarPassword(Jugador jugador, String actual, String nueva)
+        throws PasswordInvalidoException, CredencialesInvalidosException {
+    if (jugador.getContrasena().equals(actual)) {
+        if (nueva.length() == 5) {
+            jugador.setContrasena(nueva);
+        } else {
+            throw new PasswordInvalidoException("El password debe tener exactamente 5 caracteres");
+        }
+    } else {
+        throw new CredencialesInvalidosException("El password actual es incorrecto");
     }
-     else {
-         jugador.setContrasena(nueva) ;
-     }
- }
-  // metodo eliminar jugador
- public void eliminarJugador (Jugador jugador) {
-     listaJugadores.remove(jugador) ;
- }
-         
+   } 
+   // metodo eliminar jugador
+ public void eliminarJugador(Jugador jugador, String password)
+        throws CredencialesInvalidosException {
+    if (jugador.getContrasena().equals(password)) {
+        listaJugadores.remove(jugador);
+    } else {
+        throw new CredencialesInvalidosException("Password incorrecto");
+    }
+}         
 // getter and setters
     public ArrayList<Jugador> getListaJugadores() {
         return listaJugadores;
