@@ -4,17 +4,25 @@ import logica.ControlUsuarios ;
 import modelo.Jugador ;
 import excepciones.PasswordInvalidoException ;
 import javax.swing.JOptionPane ;
+ import excepciones.CredencialesInvalidosException ;
 public class MiPerfil extends javax.swing.JFrame {
 private ControlUsuarios control;
 private Jugador jugadorActual;
 private MenuPrincipal menu;
-    
+   
     public MiPerfil(ControlUsuarios control , Jugador jugador , MenuPrincipal menu) {
         initComponents();
         this.control = control ;
         this.jugadorActual = jugador ;
         this.menu = menu ;
-        Lmensaje.setText("Jugador:" +jugador.getUsername());
+       
+          lUsername.setText("Username: " + jugador.getUsername());
+    lPuntos.setText("Puntos: " + jugador.getPuntos());
+    lHeroes.setText("Partidas con Héroes: " + jugador.getPartidasHeroes());
+    lVillanos.setText("Partidas con Villanos: " + jugador.getPartidasVillanos());
+
+    txtHistorial.setText("Todavía no hay partidas jugadas");
+        
     }
 
    
@@ -23,27 +31,27 @@ private MenuPrincipal menu;
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        Lmensaje = new javax.swing.JLabel();
-        BLOGJUEGOS = new javax.swing.JButton();
         BVOLVER = new javax.swing.JButton();
         BCAMBIARPASWORD = new javax.swing.JButton();
         BELIMINAR = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtHistorial = new javax.swing.JTextArea();
+        lUsername = new javax.swing.JLabel();
+        lPuntos = new javax.swing.JLabel();
+        lVillanos = new javax.swing.JLabel();
+        lHeroes = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("MI PERFIL");
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Mi Perfil");
-
-        Lmensaje.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-
-        BLOGJUEGOS.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        BLOGJUEGOS.setText("LOG DE JUEGOS");
-        BLOGJUEGOS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BLOGJUEGOSActionPerformed(evt);
-            }
-        });
 
         BVOLVER.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         BVOLVER.setText("VOLVER");
@@ -69,90 +77,162 @@ private MenuPrincipal menu;
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setText("Partidas con Villanos:");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setText("Username :");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel4.setText("Puntos :");
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel5.setText("Partidas con Heroes:");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel6.setText("Historial de partidas");
+
+        txtHistorial.setColumns(20);
+        txtHistorial.setRows(5);
+        jScrollPane2.setViewportView(txtHistorial);
+
+        lUsername.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
+        lPuntos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lPuntos.setText("0");
+
+        lVillanos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lVillanos.setText("0");
+
+        lHeroes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lHeroes.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BVOLVER, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BELIMINAR, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BCAMBIARPASWORD, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(91, 91, 91)
-                            .addComponent(BLOGJUEGOS, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(143, 143, 143)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Lmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(91, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lHeroes, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lVillanos, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(68, 68, 68)
+                                .addComponent(lPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(30, 30, 30))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(BCAMBIARPASWORD)
+                        .addGap(30, 30, 30)
+                        .addComponent(BELIMINAR)
+                        .addGap(39, 39, 39)
+                        .addComponent(BVOLVER, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(40, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(lUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lHeroes, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lVillanos, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Lmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BLOGJUEGOS, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BCAMBIARPASWORD, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BELIMINAR, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BVOLVER, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BCAMBIARPASWORD, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BELIMINAR, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BVOLVER, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
  // boton cambiar contraseña
     private void BCAMBIARPASWORDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCAMBIARPASWORDActionPerformed
-String nueva = JOptionPane.showInputDialog(this, "Escribe tu nuevo password (5 caracteres)");
-if (nueva == null) {
-    return;
-}
-try {
-    control.cambiarPassword(jugadorActual, nueva);
-    JOptionPane.showMessageDialog(this, "Password cambiado");
-} catch (PasswordInvalidoException e) {
-    JOptionPane.showMessageDialog(this, e.getMessage());
-}
+       CambiarPassword ventana = new CambiarPassword(control, jugadorActual);
+       ventana.setVisible(true);
     }//GEN-LAST:event_BCAMBIARPASWORDActionPerformed
  // boton eliminar cuenta
     private void BELIMINARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BELIMINARActionPerformed
-      int respuesta = JOptionPane.showConfirmDialog(this,
-        "¿Seguro que quieres eliminar tu cuenta?",
-        "Eliminar cuenta", JOptionPane.YES_NO_OPTION);
-        if (respuesta == JOptionPane.YES_OPTION) {
-        control.eliminarJugador(jugadorActual);
-         JOptionPane.showMessageDialog(this, "Tu cuenta fue eliminada");
-        MenuInicial inicio = new MenuInicial(control);
-        inicio.setVisible(true);
-        menu.dispose();
-        dispose();
-} 
+     String password = JOptionPane.showInputDialog(this, "Escribe tu password para confirmar");
+        if (password == null) {
+            return;
+            }
+        try {
+    control.eliminarJugador(jugadorActual, password);
+    JOptionPane.showMessageDialog(this, "Tu cuenta fue eliminada");
+    MenuInicial inicio = new MenuInicial(control);
+    inicio.setVisible(true);
+    menu.dispose();
+    dispose();
+        } catch (CredencialesInvalidosException e) {
+    JOptionPane.showMessageDialog(this, e.getMessage());
+}
     }//GEN-LAST:event_BELIMINARActionPerformed
  // boton volver
     private void BVOLVERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BVOLVERActionPerformed
        dispose () ;
     }//GEN-LAST:event_BVOLVERActionPerformed
 
-    private void BLOGJUEGOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BLOGJUEGOSActionPerformed
-      JOptionPane.showMessageDialog(this, "Todavía no hay partidas jugadas");
-    }//GEN-LAST:event_BLOGJUEGOSActionPerformed
-
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BCAMBIARPASWORD;
     private javax.swing.JButton BELIMINAR;
-    private javax.swing.JButton BLOGJUEGOS;
     private javax.swing.JButton BVOLVER;
-    private javax.swing.JLabel Lmensaje;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lHeroes;
+    private javax.swing.JLabel lPuntos;
+    private javax.swing.JLabel lUsername;
+    private javax.swing.JLabel lVillanos;
+    private javax.swing.JTextArea txtHistorial;
     // End of variables declaration//GEN-END:variables
 }

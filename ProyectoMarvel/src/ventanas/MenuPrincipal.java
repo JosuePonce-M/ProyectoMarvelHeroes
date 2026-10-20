@@ -2,7 +2,7 @@
 package ventanas;
 import logica.ControlUsuarios ;
 import modelo.Jugador ;
-
+import javax.swing.JOptionPane ;
 
 public class MenuPrincipal extends javax.swing.JFrame {
 private ControlUsuarios control ;
@@ -28,7 +28,7 @@ private Jugador jugadorActual ;
         BUniverso = new javax.swing.JButton();
         lmensaje = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -99,12 +99,18 @@ private Jugador jugadorActual ;
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+ // boton cerrar seccion
     private void BCerrarSeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCerrarSeccionActionPerformed
         // TODO add your handling code here:
+        
+        int respuesta = JOptionPane.showConfirmDialog(this,
+        "¿Seguro que quieres cerrar sesión?",
+        "Cerrar sesión", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
         MenuInicial inicio = new MenuInicial(control);
         inicio.setVisible(true);
         dispose();
+}
     }//GEN-LAST:event_BCerrarSeccionActionPerformed
 
     private void BperfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BperfilActionPerformed
