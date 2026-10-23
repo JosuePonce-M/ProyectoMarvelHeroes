@@ -7,7 +7,7 @@ import excepciones.UsuarioDuplicadoException ;
 import excepciones.CredencialesInvalidosException ;
 public class ControlUsuarios {
    private ArrayList <Jugador> listaJugadores ;
-   private int UsuariosH = 0 ;
+   private int usuariosHistoricos = 0 ;
    // constructor
   public ControlUsuarios () {
        listaJugadores = new ArrayList<> () ;
@@ -39,7 +39,7 @@ public class ControlUsuarios {
 
     Jugador nuevo = new Jugador(username, password);
     listaJugadores.add(nuevo);
-    UsuariosH =  UsuariosH +1 ;
+    usuariosHistoricos =  usuariosHistoricos +1 ;
 }
  // metodo 
 public Jugador login(String username, String password)
@@ -51,7 +51,7 @@ public Jugador login(String username, String password)
     throw new CredencialesInvalidosException("Username o password incorrectos");
 }
 
-if (!jugador.getContrasena().equals(password)) {
+if (jugador.getContrasena().equals(password) == false)  {
     throw new CredencialesInvalidosException("Username o password incorrectos");
 }
 
@@ -88,11 +88,11 @@ return jugador;
         this.listaJugadores = listaJugadores;
     }
 
-    public int getUsuariosH() {
-        return UsuariosH;
+    public int getUsuariosHistoricos() {
+        return usuariosHistoricos;
     }
 
-    public void setUsuariosH(int UsuariosH) {
-        this.UsuariosH = UsuariosH;
+    public void setUsuariosHistoricos(int usuariosHistoricos) {
+        this.usuariosHistoricos = usuariosHistoricos;
     }
 }
