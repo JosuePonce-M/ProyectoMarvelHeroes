@@ -1,6 +1,6 @@
 
 package modelo;
-
+import java.util.ArrayList ;
 
 public class Jugador {
     // atributos
@@ -9,7 +9,7 @@ public class Jugador {
     private int puntos = 0 ;
     private int PartidasHeroes  = 0;
     private int PartidasVillanos  = 0;
- 
+     private ArrayList <String> log = new ArrayList <> () ;
   public Jugador ( String username , String contrasena ) {
      this.username = username ; 
      this.contrasena = contrasena ;
@@ -53,7 +53,13 @@ public class Jugador {
     public void setPartidasVillanos(int PartidasVillanos) {
         this.PartidasVillanos = PartidasVillanos;
     }
-    
+
+    public ArrayList<String> getLog() {
+        return log;
+    }
+    public void agregarLog(String texto) {
+        log.add(0, texto) ;
+    }
 }
 
  
