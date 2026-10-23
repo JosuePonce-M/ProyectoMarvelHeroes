@@ -145,11 +145,13 @@ public class CrearPlayer extends javax.swing.JFrame {
     JOptionPane.showMessageDialog(this, e.getMessage());
     
  } catch (UsuarioDuplicadoException e) {
-     JOptionPane.showMessageDialog(this, e.getMessage());}  
+    JOptionPane.showMessageDialog(this, e.getMessage() + " Ingresa uno nuevo.");
+    txtUsername.setText("");
+    txtUsername.requestFocus(); 
     }//GEN-LAST:event_BCrearActionPerformed
-
+    }
     private void txtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContrasenaActionPerformed
-        // TODO add your handling code here:
+
         
     }//GEN-LAST:event_txtContrasenaActionPerformed
 

@@ -22,7 +22,7 @@ public class MenuInicial extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(500, 400));
 
         BtnSalir.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        BtnSalir.setText("Salir");
+        BtnSalir.setText("SALIR");
         BtnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnSalirActionPerformed(evt);
