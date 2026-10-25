@@ -3,8 +3,10 @@ package logica;
 
 import modelo.*;
 import java.util.ArrayList;
+import java.util.Random ;
 public class Tablero {
     
+private Random r = new Random(); 
   private Pieza [][] casillas ;
   public Tablero () {
       casillas = new Pieza[10][10] ;
@@ -35,7 +37,7 @@ public boolean esZonaProhibida (int fila , int columna) {
  return false ;
 }
   // metodo para crear los personajes
-  private ArrayList<Pieza> crearPiezasHeroes() {  
+  public ArrayList<Pieza> crearPiezasHeroes() {  
      ArrayList<Pieza> lista = new ArrayList<>();  
     Bando b = Bando.Heroes;  
     // Rango 10 al 4 (PiezaMovil) Heroes
@@ -90,7 +92,7 @@ public boolean esZonaProhibida (int fila , int columna) {
 
     return lista;
 }
-  private ArrayList<Pieza> crearPiezasVillanos() {
+  public ArrayList<Pieza> crearPiezasVillanos() {
     ArrayList<Pieza> lista = new ArrayList<>();
     Bando b = Bando.Villanos;
 
@@ -146,4 +148,103 @@ public boolean esZonaProhibida (int fila , int columna) {
     return lista ;
     
   }
+   private int colocarTierra(Pieza tierra , int filaultima) {
+       int columna ;
+       //  columna al azar del 1 al 8 
+      columna = r.nextInt(8)+1 ;
+      colocarPieza(tierra , filaultima ,  columna) ;
+       return columna;
+       
+   }
+   // metodo para que se coloquen las bombas
+    private void colocarBombasAlrededor (ArrayList<Pieza> bombas, int filaUltima, int filaFrente, int columna) {
+        int[] filas    = {filaUltima, filaUltima, filaFrente};
+    int[] columnas = {columna - 1, columna + 1, columna};
+        for (int i = 0; i < filas.length; i++) {
+         Pieza bomba =   bombas.remove(0) ;
+          colocarPieza(bomba ,filas[i] , columnas [i])  ;
+        }
 }
+    // metodo para colocar las fichas
+    private void colocarAlAzar(ArrayList<Pieza> piezas, int filaInicio, int cantidadFilas) {        
+        int fila ;
+        int columna ;
+       
+        while(piezas.size()>0) {
+          fila = filaInicio + r.nextInt(cantidadFilas) ;
+          columna = r.nextInt(10) ;
+          if(estaVacia(fila , columna) ==true) {
+              Pieza pieza = piezas.remove(0) ;
+              colocarPieza(pieza , fila , columna) ;
+          }
+        }
+    }
+    // merodo que nos ayuda a separar tipo y colocar en sus filas
+    public void armarBando(ArrayList<Pieza> todas ,Bando bando) {
+        // separar fichas
+         ArrayList<Pieza> bombas   = new ArrayList<>();
+    ArrayList<Pieza> misticas = new ArrayList<>();
+    ArrayList<Pieza> resto    = new ArrayList<>();
+    Pieza tierra = null;
+
+    for (int i = 0; i < todas.size(); i++) {
+        Pieza p = todas.get(i);
+        if( p  instanceof Tierra) {
+        tierra = p ;
+        }
+        
+        else if ( p instanceof Bomba) {
+          bombas.add(p) ;
+                
+        }    
+        else if ( p instanceof Mistica) {
+            misticas.add(p) ;
+        }
+        else {
+            resto.add(p) ;
+        }
+        
+    
+    }
+    // colocar cada grupo 
+    int filaUltima;
+    int filaFrente;
+    int filaBombas;
+    int filaMisticas;
+    int filaResto;
+
+if (bando == Bando.Heroes) {
+    // asigná los 5 valores de Héroes
+    filaUltima = 9 ;
+    filaFrente = 8 ;
+    filaBombas = 8 ;
+    filaMisticas = 6 ;
+    filaResto = 6 ;
+    
+}        
+    // asigná los 5 valores de Villanos
+else {
+    filaUltima =0 ;
+    filaFrente = 1 ;
+    filaBombas = 0 ;
+    filaMisticas = 2 ;
+    filaResto = 0 ;
+    
+}
+  //  ponen las fichas en el tablero
+ int columna = colocarTierra(tierra, filaUltima);
+  colocarBombasAlrededor ( bombas, filaUltima, filaFrente, columna) ;
+  colocarAlAzar(bombas ,filaBombas ,2) ;
+  colocarAlAzar (misticas , filaMisticas ,2) ;
+  colocarAlAzar ( resto , filaResto ,4 ) ;
+  
+  
+
+}
+}
+    
+
+
+
+
+
