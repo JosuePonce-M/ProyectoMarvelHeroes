@@ -25,39 +25,46 @@ private JButton[][] botones = new JButton[10][10];
             Pieza p = tablero.getPieza(fila, columna);
 
             // TODO 1: si es zona prohibida → color DARK_GRAY y setEnabled(false)
+           
+
             if (tablero.esZonaProhibida(fila, columna) == true) {
-                boton.setBackground(Color.DARK_GRAY);
+                boton.setContentAreaFilled(false);
                 boton.setEnabled(false);
-                
+            } else if (p == null) {
+                boton.setText("");
+                boton.setContentAreaFilled(false);
+            } else {
+                boton.setContentAreaFilled(true);
+
+                // el texto
+                if (p instanceof Tierra) {
+                    boton.setText("T");
+                } else if (p instanceof Bomba) {
+                    boton.setText("B");
+                } else {
+                    boton.setText("" + p.getRango());
+                }
+
+                // el color
+                if (p.getBando() == Bando.Heroes) {
+                    boton.setBackground(Color.BLUE);
+                } else {
+                    boton.setBackground(Color.RED);
+                }
             }
-            else if (p ==null) {
-                boton.setText("") ;
-                
+        }
             }
-            else {
-    // Bloque 1: el TEXTO (según el tipo de ficha)
-    if (p instanceof Tierra) {
-        boton.setText("T");
-    } else if ( p instanceof Bomba) {
-       boton.setText("B");
-    } else {
-      boton.setText("" +p.getRango()) ;
-    }
-    if (p.getBando() == Heroes) {
-         boton.setBackground(Color.BLUE);
-    } else {
-        boton.setBackground(Color.RED); 
-    }
-}
-    }
-}
- }
+        }
+    
+        
+ 
+ 
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 =    new PanelFondo();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("panelTablero"); // NOI18N
