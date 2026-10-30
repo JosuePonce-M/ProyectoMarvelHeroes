@@ -9,6 +9,7 @@ public class Tierra extends Pieza {
         super("Tierra" , 0 , bando , imagen) ;
         
     }
+  @Override
     public boolean puedeMoverse () {
         return false ;
     }  

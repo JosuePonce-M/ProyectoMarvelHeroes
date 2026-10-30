@@ -1,65 +1,70 @@
-
 package ventanas;
 
+import excepciones.MovimientoInvalidoException;
 import java.awt.Color;
 import modelo.*;
-import logica.*;
+import logica.Partida;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import logica.Tablero;
-import static modelo.Bando.Heroes;
+import javax.swing.JOptionPane;
+
+import javax.swing.Timer;
+
 public class VentanaJuego extends javax.swing.JFrame {
 
- private Tablero tablero;
-private JButton[][] botones = new JButton[10][10];
-    public VentanaJuego(Tablero tablero) {
+    private Tablero tablero;
+    private Partida partida;
+    private JButton[][] botones = new JButton[10][10];
+    private int filaSeleccionada = -1;
+    private int columnaSeleccionada = -1;
+
+    public VentanaJuego(Partida partida) {
         initComponents();
-    this.tablero = tablero;
-    crearBotones();
-    actualizarBotones();
+        this.partida = partida;
+        this.tablero = partida.getTablero();
+        crearBotones();
+        actualizarBotones();
     }
- private void actualizarBotones() {
-    for (int fila = 0; fila < 10; fila++) {
-        for (int columna = 0; columna < 10; columna++) {
-            JButton boton = botones[fila][columna];
-            Pieza p = tablero.getPieza(fila, columna);
 
-            // TODO 1: si es zona prohibida → color DARK_GRAY y setEnabled(false)
-           
+    private void actualizarBotones() {
+        for (int fila = 0; fila < 10; fila++) {
+            for (int columna = 0; columna < 10; columna++) {
+                JButton boton = botones[fila][columna];
+                Pieza p = tablero.getPieza(fila, columna);
 
-            if (tablero.esZonaProhibida(fila, columna) == true) {
-                boton.setContentAreaFilled(false);
-                boton.setEnabled(false);
-            } else if (p == null) {
-                boton.setText("");
-                boton.setContentAreaFilled(false);
-            } else {
-                boton.setContentAreaFilled(true);
-
-                // el texto
-                if (p instanceof Tierra) {
-                    boton.setText("T");
-                } else if (p instanceof Bomba) {
-                    boton.setText("B");
+                if (tablero.esZonaProhibida(fila, columna) == true) {
+                    boton.setContentAreaFilled(false);
+                    boton.setEnabled(false);
+                } else if (p == null) {
+                    boton.setText("");
+                    boton.setContentAreaFilled(false);
                 } else {
-                    boton.setText("" + p.getRango());
-                }
+                    boton.setContentAreaFilled(true);
 
-                // el color
-                if (p.getBando() == Bando.Heroes) {
-                    boton.setBackground(Color.BLUE);
-                } else {
-                    boton.setBackground(Color.RED);
+                    if (p.getBando() == partida.getTurno() || p.isRevelada() == true) {
+                        if (p instanceof Tierra) {
+                            boton.setText("T");
+                        } else if (p instanceof Bomba) {
+                            boton.setText("B");
+                        } else {
+                            boton.setText("" + p.getRango());
+                        }
+                    } else {
+                        boton.setText("");
+                    }
+
+                    // el color
+                    if (p.getBando() == Bando.Heroes) {
+                        boton.setBackground(Color.BLUE);
+                    } else {
+                        boton.setBackground(Color.RED);
+                    }
                 }
             }
         }
-            }
-        }
-    
-        
- 
- 
-   
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -95,22 +100,73 @@ private JButton[][] botones = new JButton[10][10];
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-   private void crearBotones () {
-       jPanel1.setLayout(new GridLayout(10, 10));
-       for (int fila = 0; fila < 10; fila++) {
-        for (int columna = 0; columna < 10; columna++) {
-            // crear boton
-             JButton boton = new JButton() ;
-              botones[fila][columna] = boton ;
-             jPanel1.add(boton) ;
-            
-         
+    private void crearBotones() {
+        jPanel1.setLayout(new GridLayout(10, 10));
+        for (int fila = 0; fila < 10; fila++) {
+            for (int columna = 0; columna < 10; columna++) {
+                // crear boton
+                JButton boton = new JButton();
+                botones[fila][columna] = boton;
+                jPanel1.add(boton);
+
+                int f = fila;
+                int c = columna;
+                boton.addActionListener(e -> clicCasilla(f, c));
+
+            }
         }
+
     }
 
-   }
+    private void clicCasilla(int fila, int columna) {
+        if (filaSeleccionada != -1) {
+            try {
+                partida.moverPieza(filaSeleccionada, columnaSeleccionada, fila, columna);
+                if (partida.huboCombate() == true) {
+                    Timer espera = new Timer(500, e -> {
+                        partida.ocultarCombate();
+                        actualizarBotones();
+                    });
+                    espera.setRepeats(false);
+                    espera.start();
+                }
+            } catch (MovimientoInvalidoException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+            filaSeleccionada = -1;
+            columnaSeleccionada = -1;
+            actualizarBotones();
+            return;
+        }
+        Pieza p = tablero.getPieza(fila, columna);
+
+        //  si p es null 
+        if (p == null) {
+            JOptionPane.showMessageDialog(this, "Ahí no hay ninguna ficha");
+            return;
+        }
+        //  si p NO es del bando del turno 
+        if (p.getBando() != partida.getTurno()) {
+            JOptionPane.showMessageDialog(this, "Esa ficha no es tuya");
+            return;
+        }
+        // TODO 3: si p NO puede moverse → mensaje "Esa ficha no se puede mover"
+        if (p.puedeMoverse() == false) {
+            JOptionPane.showMessageDialog(this, "Esa ficha no se puede mover");
+            return;
+        } // si pasó todo lo anterior:
+        else {
+
+            filaSeleccionada = fila;
+            columnaSeleccionada = columna;
+            botones[fila][columna].setBackground(Color.YELLOW);
+        }
+
+        //   - guardá fila y columna en filaSeleccionada y columnaSeleccionada
+    }
+
     public static void main(String args[]) {
-       
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -131,11 +187,13 @@ private JButton[][] botones = new JButton[10][10];
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-             Tablero t = new Tablero();
-    t.armarBando(t.crearPiezasHeroes(), Bando.Heroes);
-    t.armarBando(t.crearPiezasVillanos(), Bando.Villanos);
-    new VentanaJuego(t).setVisible(true);
+                Tablero t = new Tablero();
+                t.armarBando(t.crearPiezasHeroes(), Bando.Heroes);
+                t.armarBando(t.crearPiezasVillanos(), Bando.Villanos);
+                Partida partida = new Partida(t);
+                new VentanaJuego(partida).setVisible(true);
 
             }
         });
