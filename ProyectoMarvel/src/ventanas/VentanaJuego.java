@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import logica.Tablero;
 import javax.swing.JOptionPane;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 import javax.swing.Timer;
 
@@ -25,24 +27,35 @@ public class VentanaJuego extends javax.swing.JFrame {
         this.tablero = partida.getTablero();
         crearBotones();
         actualizarBotones();
+        jPanel1.setPreferredSize(new java.awt.Dimension(600, 600));
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     private void actualizarBotones() {
-        for (int fila = 0; fila < 10; fila++) {
-            for (int columna = 0; columna < 10; columna++) {
-                JButton boton = botones[fila][columna];
-                Pieza p = tablero.getPieza(fila, columna);
+    for (int fila = 0; fila < 10; fila++) {
+        for (int columna = 0; columna < 10; columna++) {
+            JButton boton = botones[fila][columna];
+            Pieza p = tablero.getPieza(fila, columna);
 
-                if (tablero.esZonaProhibida(fila, columna) == true) {
-                    boton.setContentAreaFilled(false);
-                    boton.setEnabled(false);
-                } else if (p == null) {
-                    boton.setText("");
-                    boton.setContentAreaFilled(false);
-                } else {
-                    boton.setContentAreaFilled(true);
+            if (tablero.esZonaProhibida(fila, columna) == true) {
+                boton.setContentAreaFilled(false);
+                boton.setEnabled(false);
+                boton.setIcon(null);
+            } else if (p == null) {
+                boton.setText("");
+                boton.setContentAreaFilled(false);
+                boton.setIcon(null);
+            } else {
+                boton.setContentAreaFilled(true);
 
-                    if (p.getBando() == partida.getTurno() || p.isRevelada() == true) {
+                if (p.getBando() == partida.getTurno() || p.isRevelada() == true) {
+                    // FICHA VISIBLE → imagen del personaje
+                    ImageIcon icono = cargarIcono(p.getImagen());
+                    if (icono == null) {
+                        // si la imagen no existe, se muestra el texto como antes
+                        boton.setIcon(null);
                         if (p instanceof Tierra) {
                             boton.setText("T");
                         } else if (p instanceof Bomba) {
@@ -51,20 +64,38 @@ public class VentanaJuego extends javax.swing.JFrame {
                             boton.setText("" + p.getRango());
                         }
                     } else {
+                        boton.setIcon(icono);
                         boton.setText("");
                     }
-
-                    // el color
+                } else {
+                    // FICHA TAPADA → imagen oculta
                     if (p.getBando() == Bando.Heroes) {
-                        boton.setBackground(Color.BLUE);
+                        boton.setIcon(cargarIcono("fichas/oculta_heroes.png"));
                     } else {
-                        boton.setBackground(Color.RED);
+                        boton.setIcon(cargarIcono("fichas/oculta_villanos.png"));
                     }
+                    boton.setText("");
+                }
+
+                // el color
+                if (p.getBando() == Bando.Heroes) {
+                    boton.setBackground(Color.BLUE);
+                } else {
+                    boton.setBackground(Color.RED);
                 }
             }
         }
     }
-
+}
+    
+    private ImageIcon cargarIcono(String archivo) {
+    java.net.URL ruta = getClass().getResource("/Imagenes/" + archivo);
+    if (ruta == null) {
+        return null;
+    }
+    Image img = new ImageIcon(ruta).getImage().getScaledInstance(55, 55, Image.SCALE_SMOOTH);
+    return new ImageIcon(img);
+  }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

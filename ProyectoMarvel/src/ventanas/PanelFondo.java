@@ -10,7 +10,7 @@ public class PanelFondo extends JPanel {
  private Image fondo;
 
     public PanelFondo() {
-        fondo = new ImageIcon(getClass().getResource("/imagenes/tablero.png")).getImage();
+        fondo = new ImageIcon(getClass().getResource("/Imagenes/tablero.png")).getImage();
     }
 
     @Override
