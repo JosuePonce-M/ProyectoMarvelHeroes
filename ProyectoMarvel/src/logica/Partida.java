@@ -15,7 +15,11 @@ public class Partida {
     private ArrayList<Pieza> eliminadosVillanos = new ArrayList<>();
     private Pieza ultimoAtacante;
     private Pieza ultimoDefensor;
+    private Bando ganador = null;
 
+    public Bando getGanador() {
+        return ganador;
+    }
     public Partida(Tablero tablero) {
         
         
@@ -89,6 +93,9 @@ public class Partida {
         if (resultado == ResultadoCombate.GANA) {
          eliminar(defensor) ; tablero.quitarPieza(filaOrigen, columnaOrigen);
         tablero.colocarPieza(pieza, filaDestino, columnaDestino); 
+        if( defensor  instanceof Tierra) {
+            ganador = pieza.getBando() ;
+        }
         }
          //   PIERDE
         else if ( resultado == ResultadoCombate.PIERDE) {
@@ -106,6 +113,18 @@ public class Partida {
   
     // cambiá el turno
     cambiarTurno () ;
+    
+    if(ganador == null && tieneMovimientos(turno ,0) == false) {
+        
+    if( turno == Bando.Heroes) {
+        ganador = Bando.Villanos ;
+    } 
+    
+    else {
+        ganador = Bando.Heroes ;
+    }
+    }
+
     
 }
     // metodo que elimina las piezas
@@ -137,11 +156,57 @@ public class Partida {
 }
 
 public void ocultarCombate() {
-    // TODO: setRevelada(false) a ultimoAtacante y a ultimoDefensor
+    //  se muestra ultimo actacante y ultimo defensor
     ultimoAtacante.setRevelada(false);
      ultimoDefensor.setRevelada(false);
     }
-    
+ // metodo revisa si es un destion es valido
+
+private boolean casillaDisponible(int fila, int columna, Bando bando) {
+    if (fila < 0 || fila > 9 || columna < 0 || columna > 9) {
+        return false;                          // fuera del tablero
+    }
+    if (tablero.esZonaProhibida(fila, columna) == true) {
+        return false;
+    }
+    if (tablero.estaVacia(fila, columna) == true) {
+        return true;                           // vacía , se puede mover
+    }
+    if (tablero.getPieza(fila, columna).getBando() == bando) {
+        return false;                          // ficha propia 
+    }
+    return true;                               // ficha rival 
+}
+// metodo que revisa si esa ficha tiene un lugar donde moverse
+ private boolean puedeMoverDesde(int fila, int columna, Bando bando) {
+    if (casillaDisponible(fila - 1, columna, bando) == true) return true;   // arriba
+    if (casillaDisponible(fila + 1, columna, bando) == true) return true;   // abajo
+    if (casillaDisponible(fila, columna - 1, bando) == true) return true;   // izquierda
+    if (casillaDisponible(fila, columna + 1, bando) == true) return true;   // derecha
+    return false;
+}
+ 
+ 
+public boolean tieneMovimientos(Bando bando, int posicion) {
+    //  (caso base)
+     if(posicion == 100) {
+         return false ;
+     }
+
+    int fila = posicion / 10;
+    int columna = posicion % 10;
+    Pieza p = tablero.getPieza(fila, columna);
+
+    if (p != null && p.getBando() == bando && p.puedeMoverse() == true
+            && puedeMoverDesde(fila, columna, bando) == true) {
+       
+        return true ;
+    }
+
+   
+  return tieneMovimientos(bando, posicion + 1);
+   
+}
 }
 
     

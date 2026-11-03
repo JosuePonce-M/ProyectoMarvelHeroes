@@ -37,117 +37,123 @@ public boolean esZonaProhibida (int fila , int columna) {
  return false ;
 }
   // metodo para crear los personajes
-  public ArrayList<Pieza> crearPiezasHeroes() {  
-     ArrayList<Pieza> lista = new ArrayList<>();  
-    Bando b = Bando.Heroes;  
+  public ArrayList<Pieza> crearPiezasHeroes() {
+    ArrayList<Pieza> lista = new ArrayList<>();
+    String c = "fichas/heroes_azul/";
+    Bando b = Bando.Heroes;
+
     // Rango 10 al 4 (PiezaMovil) Heroes
-     lista.add(new PiezaMovil("Mr. Fantastic", 10, b, "mrfantastic.png"));
-    lista.add(new PiezaMovil("Captain America", 9, b, "captainamerica.png"));
-    lista.add(new PiezaMovil("Professor X", 8, b, "professorx.png"));
-    lista.add(new PiezaMovil("Nick Fury", 8, b, "nickfury.png"));
-     lista.add(new PiezaMovil("Spider-Man", 7, b, "spiderman.png"));
-    lista.add(new PiezaMovil("Wolverine", 7, b, "wolverine.png"));
-    lista.add(new PiezaMovil("Namor", 7, b, "namor.png"));
-    lista.add(new PiezaMovil("Daredevil", 6, b, "daredevil.png"));
-    lista.add(new PiezaMovil("Silver Surfer", 6, b, "silversurfer.png"));
-    lista.add(new PiezaMovil("Hulk", 6, b, "hulk.png"));
-    lista.add(new PiezaMovil("Iron Man", 6, b, "ironman.png"));
-    lista.add(new PiezaMovil("Thor", 5, b, "thor.png"));
-    lista.add(new PiezaMovil("Human Torch", 5, b, "humantorch.png"));
-    lista.add(new PiezaMovil("Cyclops", 5, b, "cyclops.png"));
-    lista.add(new PiezaMovil("Invisible Woman", 5, b, "invisiblewoman.png"));
-    lista.add(new PiezaMovil("Ghost Rider", 4, b, "ghostrider.png"));
-    lista.add(new PiezaMovil("Punisher", 4, b, "punisher.png"));
-    lista.add(new PiezaMovil("Blade", 4, b, "blade.png"));
-    lista.add(new PiezaMovil("Thing", 4, b, "thing.png"));
+     lista.add(new PiezaMovil("Mr. Fantastic", 10, b, c + "mr_fantastic.png"));
+    lista.add(new PiezaMovil("Captain America", 9, b, c + "captain_america.png"));
+    lista.add(new PiezaMovil("Professor X", 8, b, c + "professor_x.png"));
+    lista.add(new PiezaMovil("Nick Fury", 8, b, c + "nick_fury.png"));
+    lista.add(new PiezaMovil("Spider-Man", 7, b, c + "spider_man.png"));
+    lista.add(new PiezaMovil("Wolverine", 7, b, c + "wolverine.png"));
+    lista.add(new PiezaMovil("Namor", 7, b, c + "namor.png"));
+    lista.add(new PiezaMovil("Daredevil", 6, b, c + "daredevil.png"));
+    lista.add(new PiezaMovil("Silver Surfer", 6, b, c + "silver_surfer.png"));
+    lista.add(new PiezaMovil("Hulk", 6, b, c + "hulk.png"));
+    lista.add(new PiezaMovil("Iron Man", 6, b, c + "iron_man.png"));
+    lista.add(new PiezaMovil("Thor", 5, b, c + "thor.png"));
+    lista.add(new PiezaMovil("Human Torch", 5, b, c + "human_torch.png"));
+    lista.add(new PiezaMovil("Cyclops", 5, b, c + "cyclops.png"));
+    lista.add(new PiezaMovil("Invisible Woman", 5, b, c + "invisible_woman.png"));
+    lista.add(new PiezaMovil("Ghost Rider", 4, b, c + "ghost_rider.png"));
+    lista.add(new PiezaMovil("Punisher", 4, b, c + "punisher.png"));
+    lista.add(new PiezaMovil("Blade", 4, b, c + "blade.png"));
+    lista.add(new PiezaMovil("Thing", 4, b, c + "thing.png"));
+
     
     // Rango 3 (Scout)
-    lista.add(new Scout("Emma Frost", b, "emmafrost.png"));
-    lista.add(new Scout("She-Hulk", b, "shehulk.png"));
-    lista.add(new Scout("Giant Man", b, "giantman.png"));
-    lista.add(new Scout("Beast", b, "beast.png"));
-    lista.add(new Scout("Colossus", b, "colossus.png"));
+  lista.add(new Scout("Emma Frost", b, c + "emma_frost.png"));
+    lista.add(new Scout("She-Hulk", b, c + "she_hulk.png"));
+    lista.add(new Scout("Giant Man", b, c + "giant_man.png"));
+    lista.add(new Scout("Beast", b, c + "beast.png"));
+    lista.add(new Scout("Colossus", b, c + "colossus.png"));
     
     // Rango 2 (Mistica)
-    lista.add(new Mistica("Gambit", b, "gambit.png"));
-    lista.add(new Mistica("Spider-Girl", b, "spidergirl.png"));
-    lista.add(new Mistica("Ice Man", b, "iceman.png"));
-    lista.add(new Mistica("Storm", b, "storm.png"));
-    lista.add(new Mistica("Phoenix", b, "phoenix.png"));
-    lista.add(new Mistica("Dr. Strange", b, "drstrange.png"));
-    lista.add(new Mistica("Elektra", b, "elektra.png"));
-    lista.add(new Mistica("Nightcrawler", b, "nightcrawler.png"));
+  lista.add(new Mistica("Gambit", b, c + "gambit.png"));
+    lista.add(new Mistica("Spider-Girl", b, c + "spider_girl.png"));
+    lista.add(new Mistica("Ice Man", b, c + "ice_man.png"));
+    lista.add(new Mistica("Storm", b, c + "storm.png"));
+    lista.add(new Mistica("Phoenix", b, c + "phoenix.png"));
+    lista.add(new Mistica("Dr. Strange", b, c + "dr_strange.png"));
+    lista.add(new Mistica("Elektra", b, c + "elektra.png"));
+    lista.add(new Mistica("Nightcrawler", b, c + "nightcrawler.png"));
     
     
          // Rango 1 (Agente)
-    lista.add(new Agente("Black Widow", b, "blackwidow.png"));
-
+   lista.add(new Agente("Black Widow", b, c + "black_widow.png"));
     // 6 bombas
-    for (int i = 0; i < 6; i++) {
-        lista.add(new Bomba(b, "novablast.png"));
+    for (int i = 1; i <= 6; i++) {
+        lista.add(new Bomba(b, c + "nova_blast_" + i + ".png"));
     }
 
     // Tierra
-    lista.add(new Tierra(b, "tierra_heroes.png"));
+   lista.add(new Tierra(b, c + "planet_earth.png"));
 
     return lista;
 }
-  public ArrayList<Pieza> crearPiezasVillanos() {
+  // villanos
+ public ArrayList<Pieza> crearPiezasVillanos() {
     ArrayList<Pieza> lista = new ArrayList<>();
+    String c = "fichas/villanos_rojo/";
     Bando b = Bando.Villanos;
 
     // Rango 10 al 4 (PiezaMovil)
-    lista.add(new PiezaMovil("Dr. Doom", 10, b, "drdoom.png"));
-    lista.add(new PiezaMovil("Galactus", 9, b, "galactus.png"));
-    lista.add(new PiezaMovil("Kingpin", 8, b, "kingpin.png"));
-    lista.add(new PiezaMovil("Magneto", 8, b, "magneto.png"));
-    lista.add(new PiezaMovil("Apocalypse", 7, b, "apocalypse.png"));
-    lista.add(new PiezaMovil("Green Goblin", 7, b, "greengoblin.png"));
-    lista.add(new PiezaMovil("Venom", 7, b, "venom.png"));
-    lista.add(new PiezaMovil("Bullseye", 6, b, "bullseye.png"));
-    lista.add(new PiezaMovil("Omega Red", 6, b, "omegared.png"));
-    lista.add(new PiezaMovil("Onslaught", 6, b, "onslaught.png"));
-    lista.add(new PiezaMovil("Red Skull", 6, b, "redskull.png"));
-    lista.add(new PiezaMovil("Mystique", 5, b, "mystique.png"));
-    lista.add(new PiezaMovil("Mysterio", 5, b, "mysterio.png"));
-    lista.add(new PiezaMovil("Dr. Octopus", 5, b, "droctopus.png"));
-    lista.add(new PiezaMovil("Deadpool", 5, b, "deadpool.png"));
-    lista.add(new PiezaMovil("Abomination", 4, b, "abomination.png"));
-    lista.add(new PiezaMovil("Thanos", 4, b, "thanos.png"));
-    lista.add(new PiezaMovil("Black Cat", 4, b, "blackcat.png"));
-    lista.add(new PiezaMovil("Sabretooth", 4, b, "sabretooth.png"));
+    lista.add(new PiezaMovil("Dr. Doom", 10, b, c + "dr_doom.png"));
+    lista.add(new PiezaMovil("Galactus", 9, b, c + "galactus.png"));
+    lista.add(new PiezaMovil("Kingpin", 8, b, c + "kingpin.png"));
+    lista.add(new PiezaMovil("Magneto", 8, b, c + "magneto.png"));
+    lista.add(new PiezaMovil("Apocalypse", 7, b, c + "apocalypse.png"));
+    lista.add(new PiezaMovil("Green Goblin", 7, b, c + "green_goblin.png"));
+    lista.add(new PiezaMovil("Venom", 7, b, c + "venom.png"));
+    lista.add(new PiezaMovil("Bullseye", 6, b, c + "bullseye.png"));
+    lista.add(new PiezaMovil("Omega Red", 6, b, c + "omega_red.png"));
+    lista.add(new PiezaMovil("Onslaught", 6, b, c + "onslaught.png"));
+    lista.add(new PiezaMovil("Red Skull", 6, b, c + "red_skull.png"));
+    lista.add(new PiezaMovil("Mystique", 5, b, c + "mystique.png"));
+    lista.add(new PiezaMovil("Mysterio", 5, b, c + "mysterio.png"));
+    lista.add(new PiezaMovil("Dr. Octopus", 5, b, c + "dr_octopus.png"));
+    lista.add(new PiezaMovil("Deadpool", 5, b, c + "deadpool.png"));
+    lista.add(new PiezaMovil("Abomination", 4, b, c + "abomination.png"));
+    lista.add(new PiezaMovil("Thanos", 4, b, c + "thanos.png"));
+    lista.add(new PiezaMovil("Black Cat", 4, b, c + "black_cat.png"));
+    lista.add(new PiezaMovil("Sabretooth", 4, b, c + "sabretooth.png"));
     
     // Rango 3 (Scout)
-    lista.add(new Scout("Juggernaut", b, "juggernaut.png"));
-    lista.add(new Scout("Rhino", b, "rhino.png"));
-    lista.add(new Scout("Carnage", b, "carnage.png"));
-    lista.add(new Scout("Mole Man", b, "moleman.png"));
-    lista.add(new Scout("Lizard", b, "lizard.png"));
+  lista.add(new Scout("Juggernaut", b, c + "juggernaut.png"));
+    lista.add(new Scout("Rhino", b, c + "rhino.png"));
+    lista.add(new Scout("Carnage", b, c + "carnage.png"));
+    lista.add(new Scout("Mole Man", b, c + "mole_man.png"));
+    lista.add(new Scout("Lizard", b, c + "lizard.png"));
 
     // Rango 2 (Mistica)
-    lista.add(new Mistica("Mr. Sinister", b, "mrsinister.png"));
-    lista.add(new Mistica("Sentinel 1", b, "sentinel1.png"));
-    lista.add(new Mistica("Ultron", b, "ultron.png"));
-    lista.add(new Mistica("Sandman", b, "sandman.png"));
-    lista.add(new Mistica("Leader", b, "leader.png"));
-    lista.add(new Mistica("Viper", b, "viper.png"));
-    lista.add(new Mistica("Sentinel 2", b, "sentinel2.png"));
-    lista.add(new Mistica("Electro", b, "electro.png"));
+  lista.add(new Mistica("Mr. Sinister", b, c + "mr_sinister.png"));
+    lista.add(new Mistica("Sentinel 1", b, c + "sentinel_1.png"));
+    lista.add(new Mistica("Ultron", b, c + "ultron.png"));
+    lista.add(new Mistica("Sandman", b, c + "sandman.png"));
+    lista.add(new Mistica("Leader", b, c + "leader.png"));
+    lista.add(new Mistica("Viper", b, c + "viper.png"));
+    lista.add(new Mistica("Sentinel 2", b, c + "sentinel_2.png"));
+    lista.add(new Mistica("Electro", b, c + "electro.png"));
+
 
     // Rango 1 (Agente)
-    lista.add(new Agente("Black Widow", b, "blackwidow_villanos.png"));
+    lista.add(new Agente("Black Widow", b, c + "black_widow.png"));
+
 
     // 6 bombas
-    for (int i = 0; i < 6; i++) {
-        lista.add(new Bomba(b, "pumpkinbomb.png"));
+    for (int i = 1; i <= 6; i++) {
+        lista.add(new Bomba(b, c + "pumpkin_bomb_" + i + ".png"));
+    
     }
 
     // Tierra
-    lista.add(new Tierra(b, "tierra_villanos.png"));
+    lista.add(new Tierra(b, c + "planet_earth.png"));
 
-    return lista ;
-    
-  }
+     return lista;
+}
    private int colocarTierra(Pieza tierra , int filaultima) {
        int columna ;
        //  columna al azar del 1 al 8 
@@ -224,7 +230,7 @@ if (bando == Bando.Heroes) {
 }        
     // asigná los 5 valores de Villanos
 else {
-    filaUltima =0 ;
+    filaUltima =0;
     filaFrente = 1 ;
     filaBombas = 0 ;
     filaMisticas = 2 ;
