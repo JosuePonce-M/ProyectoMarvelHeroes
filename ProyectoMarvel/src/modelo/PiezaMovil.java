@@ -1,8 +1,8 @@
 
 package modelo;
+import interfaces.Atacante;
 
-
-public class PiezaMovil extends Pieza {
+public class PiezaMovil extends Pieza implements Atacante {
   public PiezaMovil(String nombre , int rango , Bando bando , String imagen){
      super (nombre , rango , bando , imagen) ;
     } 
@@ -13,6 +13,7 @@ public class PiezaMovil extends Pieza {
   public boolean puedeMoverVariasCasillas () {
       return false ;
   }
+  @Override
   public ResultadoCombate atacar(Pieza defensor) {
       // caso #1 si ataca una bomba , pierde
       if(defensor instanceof Bomba) {

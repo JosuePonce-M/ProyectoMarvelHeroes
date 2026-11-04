@@ -15,19 +15,20 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import interfaces.Refrescar;
 import javax.swing.Timer;
 
-public class VentanaJuego extends javax.swing.JFrame {
-   private JPanel panelHeroesEliminados = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 4));
-   private JPanel panelVillanosEliminados = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 4));
+public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
+
+    private JPanel panelHeroesEliminados = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 4));
+    private JPanel panelVillanosEliminados = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 4));
     private Tablero tablero;
     private Partida partida;
     private JButton[][] botones = new JButton[10][10];
     private int filaSeleccionada = -1;
     private int columnaSeleccionada = -1;
     private JLabel etiquetaTurno = new JLabel("", JLabel.CENTER);
-   private JButton botonRetiro = new JButton("RETIRO");
+    private JButton botonRetiro = new JButton("RETIRO");
 
     public VentanaJuego(Partida partida) {
         initComponents();
@@ -43,70 +44,76 @@ public class VentanaJuego extends javax.swing.JFrame {
     }
 
     private void actualizarBotones() {
-    for (int fila = 0; fila < 10; fila++) {
-        for (int columna = 0; columna < 10; columna++) {
-            JButton boton = botones[fila][columna];
-            Pieza p = tablero.getPieza(fila, columna);
+        for (int fila = 0; fila < 10; fila++) {
+            for (int columna = 0; columna < 10; columna++) {
+                JButton boton = botones[fila][columna];
+                Pieza p = tablero.getPieza(fila, columna);
 
-            if (tablero.esZonaProhibida(fila, columna) == true) {
-                boton.setContentAreaFilled(false);
-                boton.setEnabled(false);
-                boton.setIcon(null);
-            } else if (p == null) {
-                boton.setText("");
-                boton.setContentAreaFilled(false);
-                boton.setIcon(null);
-            } else {
-                boton.setContentAreaFilled(true);
+                if (tablero.esZonaProhibida(fila, columna) == true) {
+                    boton.setContentAreaFilled(false);
+                    boton.setEnabled(false);
+                    boton.setIcon(null);
+                } else if (p == null) {
+                    boton.setText("");
+                    boton.setContentAreaFilled(false);
+                    boton.setIcon(null);
+                } else {
+                    boton.setContentAreaFilled(true);
 
-                if (p.getBando() == partida.getTurno() || p.isRevelada() == true) {
-                    // FICHA VISIBLE → imagen del personaje
-                    ImageIcon icono = cargarIcono(p.getImagen() ,55);
-                    if (icono == null) {
-                        // si la imagen no existe, se muestra el texto como antes
-                        boton.setIcon(null);
-                        if (p instanceof Tierra) {
-                            boton.setText("T");
-                        } else if (p instanceof Bomba) {
-                            boton.setText("B");
+                    if (p.getBando() == partida.getTurno() || p.isRevelada() == true) {
+                        // FICHA VISIBLE → imagen del personaje
+                        ImageIcon icono = cargarIcono(p.getImagen(), 55);
+                        if (icono == null) {
+                            // si la imagen no existe, se muestra el texto como antes
+                            boton.setIcon(null);
+                            if (p instanceof Tierra) {
+                                boton.setText("T");
+                            } else if (p instanceof Bomba) {
+                                boton.setText("B");
+                            } else {
+                                boton.setText("" + p.getRango());
+                            }
                         } else {
-                            boton.setText("" + p.getRango());
+                            boton.setIcon(icono);
+                            boton.setText("");
                         }
                     } else {
-                        boton.setIcon(icono);
+                        // FICHA TAPADA → imagen oculta
+                        if (p.getBando() == Bando.Heroes) {
+                            boton.setIcon(cargarIcono("fichas/oculta_heroes.png", 55));
+                        } else {
+                            boton.setIcon(cargarIcono("fichas/oculta_villanos.png", 55));
+                        }
                         boton.setText("");
                     }
-                } else {
-                    // FICHA TAPADA → imagen oculta
-                    if (p.getBando() == Bando.Heroes) {
-                        boton.setIcon(cargarIcono("fichas/oculta_heroes.png" ,55));
-                    } else {
-                        boton.setIcon(cargarIcono("fichas/oculta_villanos.png" ,55));
-                    }
-                    boton.setText("");
-                }
 
-                // el color
-                if (p.getBando() == Bando.Heroes) {
-                    boton.setBackground(Color.BLUE);
-                } else {
-                    boton.setBackground(Color.RED);
+                    // el color
+                    if (p.getBando() == Bando.Heroes) {
+                        boton.setBackground(Color.BLUE);
+                    } else {
+                        boton.setBackground(Color.RED);
+                    }
                 }
             }
         }
+        actualizarEliminados();
+        actualizarTurno();
     }
-    actualizarEliminados();  
-    actualizarTurno();
-}
-    
-   private ImageIcon cargarIcono(String archivo, int tamano) {
-    java.net.URL ruta = getClass().getResource("/Imagenes/" + archivo);
-    if (ruta == null) {
-        return null;
+
+    @Override
+    public void refrescar() {
+        actualizarBotones();
     }
-    Image img = new ImageIcon(ruta).getImage().getScaledInstance(tamano, tamano, Image.SCALE_SMOOTH);
-    return new ImageIcon(img);
-}
+
+    private ImageIcon cargarIcono(String archivo, int tamano) {
+        java.net.URL ruta = getClass().getResource("/Imagenes/" + archivo);
+        if (ruta == null) {
+            return null;
+        }
+        Image img = new ImageIcon(ruta).getImage().getScaledInstance(tamano, tamano, Image.SCALE_SMOOTH);
+        return new ImageIcon(img);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -164,29 +171,33 @@ public class VentanaJuego extends javax.swing.JFrame {
         if (filaSeleccionada != -1) {
             try {
                 partida.moverPieza(filaSeleccionada, columnaSeleccionada, fila, columna);
+
                 if (partida.huboCombate() == true) {
                     Timer espera = new Timer(500, e -> {
                         partida.ocultarCombate();
-                        actualizarBotones();
+                        refrescar();
                     });
                     espera.setRepeats(false);
                     espera.start();
-                    if (partida.getGanador() != null) {
-                             actualizarBotones();
+                }                                   
+
+                if (partida.getGanador() != null) {
+                    refrescar();
                     if (partida.getGanador() == Bando.Heroes) {
-                     JOptionPane.showMessageDialog(this, "¡Ganan los HÉROES!");
-           } else {
-                    JOptionPane.showMessageDialog(this, "¡Ganan los VILLANOS!");
-        }
-                     dispose();
-                return; }
+                        JOptionPane.showMessageDialog(this, "¡Ganan los HÉROES!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "¡Ganan los VILLANOS!");
+                    }
+                    dispose();
+                    return;
                 }
+
             } catch (MovimientoInvalidoException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
             filaSeleccionada = -1;
             columnaSeleccionada = -1;
-            actualizarBotones();
+            refrescar();
             return;
         }
         Pieza p = tablero.getPieza(fila, columna);
@@ -249,80 +260,78 @@ public class VentanaJuego extends javax.swing.JFrame {
             }
         });
     }
+
     // panel laterales
     private void armarVentana() {
-    panelHeroesEliminados.setPreferredSize(new Dimension(180, 600));
-    panelVillanosEliminados.setPreferredSize(new Dimension(180, 600));
-    panelHeroesEliminados.setBackground(new Color(20, 30, 80));
-    panelVillanosEliminados.setBackground(new Color(80, 20, 20));
+        panelHeroesEliminados.setPreferredSize(new Dimension(180, 600));
+        panelVillanosEliminados.setPreferredSize(new Dimension(180, 600));
+        panelHeroesEliminados.setBackground(new Color(20, 30, 80));
+        panelVillanosEliminados.setBackground(new Color(80, 20, 20));
 
-    getContentPane().removeAll();
-    getContentPane().setLayout(new BorderLayout());
-    getContentPane().add(panelHeroesEliminados, BorderLayout.WEST);
-    getContentPane().add(jPanel1, BorderLayout.CENTER);
-    getContentPane().add(panelVillanosEliminados, BorderLayout.EAST);
-    
-    JPanel barra = new JPanel(new BorderLayout());
-    barra.setBackground(Color.BLACK);
-    etiquetaTurno.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 22));
-    barra.add(etiquetaTurno, BorderLayout.CENTER);
-    barra.add(botonRetiro, BorderLayout.EAST);
-    getContentPane().add(barra, BorderLayout.NORTH);
+        getContentPane().removeAll();
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(panelHeroesEliminados, BorderLayout.WEST);
+        getContentPane().add(jPanel1, BorderLayout.CENTER);
+        getContentPane().add(panelVillanosEliminados, BorderLayout.EAST);
 
-    botonRetiro.addActionListener(e -> retirarse());
-}
-    
+        JPanel barra = new JPanel(new BorderLayout());
+        barra.setBackground(Color.BLACK);
+        etiquetaTurno.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 22));
+        barra.add(etiquetaTurno, BorderLayout.CENTER);
+        barra.add(botonRetiro, BorderLayout.EAST);
+        getContentPane().add(barra, BorderLayout.NORTH);
+
+        botonRetiro.addActionListener(e -> retirarse());
+    }
+
     private void actualizarEliminados() {
-    panelHeroesEliminados.removeAll();
-    panelVillanosEliminados.removeAll();
+        panelHeroesEliminados.removeAll();
+        panelVillanosEliminados.removeAll();
 
-   
-        for (int i = 0; i < partida.getEliminadosHeroes().size() ; i++) {
-        Pieza p = partida.getEliminadosHeroes().get(i);         
-        panelHeroesEliminados.add(new JLabel(cargarIcono(p.getImagen(), 50)));
-            
+        for (int i = 0; i < partida.getEliminadosHeroes().size(); i++) {
+            Pieza p = partida.getEliminadosHeroes().get(i);
+            panelHeroesEliminados.add(new JLabel(cargarIcono(p.getImagen(), 50)));
+
         }
-   
 
-   
         for (int i = 0; i < partida.getEliminadosVillanos().size(); i++) {
             Pieza p = partida.getEliminadosVillanos().get(i);
-         panelVillanosEliminados.add(new JLabel(cargarIcono(p.getImagen(), 40)));
-            
+            panelVillanosEliminados.add(new JLabel(cargarIcono(p.getImagen(), 40)));
+
         }
-    panelHeroesEliminados.revalidate();
-    panelHeroesEliminados.repaint();
-    panelVillanosEliminados.revalidate();
-    panelVillanosEliminados.repaint();
-}
-    private void actualizarTurno() {
-        
-    // TODO: si el turno es Héroes:
-    if( partida.getTurno() == Bando.Heroes) {
-        etiquetaTurno.setText("Turno: HÉROES");
-        etiquetaTurno.setForeground(new Color(80, 150, 255));   // azul claro
-    } else {
-           etiquetaTurno.setText("Turno: VILLANOS");
-           etiquetaTurno.setForeground(new Color(255, 80, 80));
-       }
-   
-        
-   
+        panelHeroesEliminados.revalidate();
+        panelHeroesEliminados.repaint();
+        panelVillanosEliminados.revalidate();
+        panelVillanosEliminados.repaint();
     }
+
+    private void actualizarTurno() {
+
+        // TODO: si el turno es Héroes:
+        if (partida.getTurno() == Bando.Heroes) {
+            etiquetaTurno.setText("Turno: HÉROES");
+            etiquetaTurno.setForeground(new Color(80, 150, 255));   // azul claro
+        } else {
+            etiquetaTurno.setText("Turno: VILLANOS");
+            etiquetaTurno.setForeground(new Color(255, 80, 80));
+        }
+
+    }
+
     // mertodo retirarse
     private void retirarse() {
-    int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que querés retirarte?",
-            "Retiro", JOptionPane.YES_NO_OPTION);
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que querés retirarte?",
+                "Retiro", JOptionPane.YES_NO_OPTION);
 
-    if (respuesta == JOptionPane.YES_OPTION) {
-        if (partida.getTurno() == Bando.Heroes) {
-            JOptionPane.showMessageDialog(this, "Los HÉROES se retiraron. ¡Ganan los VILLANOS!");
-        } else {
-            JOptionPane.showMessageDialog(this, "Los VILLANOS se retiraron. ¡Ganan los HÉROES!");
+        if (respuesta == JOptionPane.YES_OPTION) {
+            if (partida.getTurno() == Bando.Heroes) {
+                JOptionPane.showMessageDialog(this, "Los HÉROES se retiraron. ¡Ganan los VILLANOS!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Los VILLANOS se retiraron. ¡Ganan los HÉROES!");
+            }
+            dispose();
         }
-        dispose();
     }
-}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
