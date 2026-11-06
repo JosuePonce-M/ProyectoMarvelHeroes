@@ -227,39 +227,7 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
         //   - guardá fila y columna en filaSeleccionada y columnaSeleccionada
     }
 
-    public static void main(String args[]) {
-
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                Tablero t = new Tablero();
-                t.armarBando(t.crearPiezasHeroes(), Bando.Heroes);
-                t.armarBando(t.crearPiezasVillanos(), Bando.Villanos);
-                Partida partida = new Partida(t);
-                new VentanaJuego(partida).setVisible(true);
-
-            }
-        });
-    }
+    
 
     // panel laterales
     private void armarVentana() {
@@ -309,10 +277,10 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
 
         // TODO: si el turno es Héroes:
         if (partida.getTurno() == Bando.Heroes) {
-            etiquetaTurno.setText("Turno: HÉROES");
+           etiquetaTurno.setText("Turno: HÉROES (" + partida.getJugadorEnTurno().getUsername() + ")");
             etiquetaTurno.setForeground(new Color(80, 150, 255));   // azul claro
         } else {
-            etiquetaTurno.setText("Turno: VILLANOS");
+            etiquetaTurno.setText("Turno: VILLANOS (" + partida.getJugadorEnTurno().getUsername() + ")") ;
             etiquetaTurno.setForeground(new Color(255, 80, 80));
         }
 
@@ -324,6 +292,7 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
                 "Retiro", JOptionPane.YES_NO_OPTION);
 
         if (respuesta == JOptionPane.YES_OPTION) {
+            partida.retirar();
             if (partida.getTurno() == Bando.Heroes) {
                 JOptionPane.showMessageDialog(this, "Los HÉROES se retiraron. ¡Ganan los VILLANOS!");
             } else {

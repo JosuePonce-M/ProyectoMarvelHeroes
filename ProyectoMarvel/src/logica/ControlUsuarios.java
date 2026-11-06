@@ -5,6 +5,7 @@ import modelo.Jugador ;
 import excepciones.PasswordInvalidoException ;
 import excepciones.UsuarioDuplicadoException ;
 import excepciones.CredencialesInvalidosException ;
+import modelo.Bando;
 public class ControlUsuarios {
    private ArrayList <Jugador> listaJugadores ;
    private int usuariosHistoricos = 0 ;
@@ -14,7 +15,7 @@ public class ControlUsuarios {
        
    }
    // metodo buscar jugasdor
-   private Jugador buscarjugador (String username) {
+   public Jugador buscarjugador (String username) {
        for (int i = 0; i < listaJugadores.size(); i++) {
       Jugador  Actual = listaJugadores.get(i) ;
          // comparacion si es igual
@@ -95,4 +96,15 @@ return jugador;
     public void setUsuariosHistoricos(int usuariosHistoricos) {
         this.usuariosHistoricos = usuariosHistoricos;
     }
+    // registrar partidas
+    private ArrayList<Bando> historialPartidas = new ArrayList<>();
+
+    public void registrarPartida(Bando ganador) {
+    historialPartidas.add(ganador);
 }
+
+    public ArrayList<Bando> getHistorialPartidas() {
+    return historialPartidas;
+    }
+    
+    }

@@ -45,6 +45,11 @@ private Jugador jugadorActual ;
 
         BpartidaNueva.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         BpartidaNueva.setText("PARTIDA NUEVA");
+        BpartidaNueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BpartidaNuevaActionPerformed(evt);
+            }
+        });
 
         BCerrarSeccion.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         BCerrarSeccion.setText("CERRAR SESIÓN");
@@ -117,6 +122,17 @@ private Jugador jugadorActual ;
      MiPerfil perfil = new MiPerfil(control, jugadorActual, this);
         perfil.setVisible(true);
     }//GEN-LAST:event_BperfilActionPerformed
+
+    private void BpartidaNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BpartidaNuevaActionPerformed
+    
+      if( control.getListaJugadores().size() <2) {
+          System.out.println("Se necesita al menos otro jugador registrado para jugar");
+      }
+      else {
+          PartidaNueva ventana = new PartidaNueva(control , jugadorActual);
+          ventana.setVisible(true);
+      }
+    }//GEN-LAST:event_BpartidaNuevaActionPerformed
 
     
    

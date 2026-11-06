@@ -15,17 +15,22 @@ public class Partida {
     private Pieza ultimoAtacante;
     private Pieza ultimoDefensor;
     private Bando ganador = null;
-
+    private Jugador jugadorHeroes;
+    private Jugador jugadorVillanos;
+    private ControlUsuarios control;
+    
     public Bando getGanador() {
         return ganador;
     }
 
-    public Partida(Tablero tablero) {
-
-        this.tablero = tablero;
-
-        turno = Bando.Heroes;
-    }
+ 
+  public Partida(Tablero tablero, Jugador jugadorHeroes, Jugador jugadorVillanos, ControlUsuarios control) {
+    this.tablero = tablero;
+    this.jugadorHeroes = jugadorHeroes;
+    this.jugadorVillanos = jugadorVillanos;
+    this.control = control;
+    turno = Bando.Heroes;
+}
 
     public Tablero getTablero() {
         return tablero;
@@ -34,6 +39,25 @@ public class Partida {
     public Bando getTurno() {
         return turno;
     }
+    
+    private Jugador getJugador(Bando bando) {
+    if (bando == Bando.Heroes) {
+        return jugadorHeroes;
+    }
+    return jugadorVillanos;
+  }
+    private Bando contrario(Bando bando) {
+    if (bando == Bando.Heroes) {
+        return Bando.Villanos;
+    }
+    return Bando.Heroes;
+  }
+    private String nombreBando(Bando bando) {
+    if (bando == Bando.Heroes) {
+        return "HÉROES";
+    }
+    return "VILLANOS";
+}
 
     public void cambiarTurno() {
         //  si el turno es Héroes, pasa a Villanos; si no, pasa a Héroes
@@ -119,8 +143,8 @@ public class Partida {
                 tablero.quitarPieza(filaOrigen, columnaOrigen);
                 tablero.colocarPieza(pieza, filaDestino, columnaDestino);
                 if (defensor instanceof Tierra) {
-                    ganador = pieza.getBando();
-                }
+            finalizar(pieza.getBando(), TipoVictoria.TIERRA);
+            }
             } //   PIERDE
             else if (resultado == ResultadoCombate.PIERDE) {
                 eliminar(pieza);
@@ -138,14 +162,9 @@ public class Partida {
         // cambiá el turno
         cambiarTurno();
 
-        if (ganador == null && tieneMovimientos(turno, 0) == false) {
-
-            if (turno == Bando.Heroes) {
-                ganador = Bando.Villanos;
-            } else {
-                ganador = Bando.Heroes;
-            }
-        }
+       if (ganador == null && tieneMovimientos(turno, 0) == false) {
+    finalizar(contrario(turno), TipoVictoria.SIN_MOVIMIENTOS);
+}
 
     }
 
@@ -239,7 +258,7 @@ public class Partida {
         return tieneMovimientos(bando, posicion + 1);
 
     }
-    // metodo recursivo de mistica
+    // metodo recursivo mistica
 
     private boolean caminoLibre(int fila, int columna, int filaDestino, int columnaDestino, int pasoFila, int pasoColumna) {
         int siguienteFila = fila + pasoFila;
@@ -257,4 +276,56 @@ public class Partida {
 
         return caminoLibre(siguienteFila, siguienteColumna, filaDestino, columnaDestino, pasoFila, pasoColumna);
     }
+    public void finalizar(Bando bandoGanador, TipoVictoria tipo) {
+    ganador = bandoGanador;
+    Bando bandoPerdedor = contrario(bandoGanador);
+    Jugador vencedor = getJugador(bandoGanador);
+    Jugador perdedor = getJugador(bandoPerdedor);
+
+    //  PUNTOS
+    
+     vencedor.setPuntos(vencedor.getPuntos()+3);
+
+    //  CONTADORES DE PARTIDAS POR BANDO
+     
+   
+  jugadorHeroes.setPartidasHeroes(jugadorHeroes.getPartidasHeroes() + 1);   
+  jugadorVillanos.setPartidasVillanos(jugadorVillanos.getPartidasVillanos() + 1);   
+    
+   // log
+    String fecha = java.time.LocalDate.now().toString();
+    String log;
+    if (tipo == TipoVictoria.TIERRA) {
+        String accion = "CAPTURADO";
+        if (bandoGanador == Bando.Heroes) {
+            accion = "SALVADO";
+        }
+        log = vencedor.getUsername() + " usando " + nombreBando(bandoGanador) + " ha " + accion
+                + " la TIERRA! Venciendo a " + perdedor.getUsername() + " — " + fecha;
+    } else if (tipo == TipoVictoria.SIN_MOVIMIENTOS) {
+        log = perdedor.getUsername() + " usando " + nombreBando(bandoPerdedor)
+                + " ha perdido por no tener movimientos válidos disponibles ante "
+                + vencedor.getUsername() + " — " + fecha;
+    } else {
+        log = vencedor.getUsername() + " usando " + nombreBando(bandoGanador) + " ha ganado ya que "
+                + perdedor.getUsername() + " usando " + nombreBando(bandoPerdedor)
+                + " se ha retirado del juego — " + fecha;
+    }
+
+   
+        vencedor.agregarLog(log);
+        perdedor.agregarLog(log);
+    // HISTORIAL GLOBAL 
+    control.registrarPartida(bandoGanador);
+    
+}
+    public void retirar() {
+     finalizar(contrario(turno), TipoVictoria.RETIRO) ;
+        
+    
+}
+    public Jugador getJugadorEnTurno() {
+    return getJugador(turno);
+}
+    
 }
