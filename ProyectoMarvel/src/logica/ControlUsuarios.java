@@ -106,5 +106,18 @@ return jugador;
     public ArrayList<Bando> getHistorialPartidas() {
     return historialPartidas;
     }
+    // metodo recursivo cuenta cuántas partidas ganó un bando, recorriendo el historial.
+
+public int contarVictorias(Bando bando, int indice) {
+    // caso base
+     if(indice == historialPartidas.size()) {
+         return 0 ;
+     }
+    if (historialPartidas.get(indice) == bando) {
+      return 1 + contarVictorias(bando, indice + 1);  
+    }
+    
+     return contarVictorias(bando, indice + 1);
+}
     
     }
