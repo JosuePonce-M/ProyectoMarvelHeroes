@@ -61,6 +61,11 @@ private Jugador jugadorActual ;
 
         BUniverso.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         BUniverso.setText("UNIVERSO MARVEL");
+        BUniverso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BUniversoActionPerformed(evt);
+            }
+        });
 
         lmensaje.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
 
@@ -133,6 +138,11 @@ private Jugador jugadorActual ;
           ventana.setVisible(true);
       }
     }//GEN-LAST:event_BpartidaNuevaActionPerformed
+
+    private void BUniversoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUniversoActionPerformed
+       UniversoMarvel ventana = new UniversoMarvel(control);
+        ventana.setVisible(true); 
+    }//GEN-LAST:event_BUniversoActionPerformed
 
     
    
