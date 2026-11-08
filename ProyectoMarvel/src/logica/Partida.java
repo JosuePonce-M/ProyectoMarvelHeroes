@@ -27,7 +27,7 @@ public class Partida {
     private Pieza ultimoAtacante;                 
     private Pieza ultimoDefensor;                 
  
-    // CONSTRUCTOR 
+    
     public Partida(Tablero tablero, Jugador jugadorHeroes, Jugador jugadorVillanos, ControlUsuarios control) {
         this.tablero = tablero;
         this.jugadorHeroes = jugadorHeroes;
@@ -50,32 +50,37 @@ public class Partida {
     //  MOVIMIENTO Y COMBATE
  
     // Mueve una ficha o ataca.
-    public void moverPieza(int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino)
+    // Revisa si un movimiento se vale, SIN hacerlo.
+    // REQ-07: lanza MovimientoInvalidoException si no se vale.
+    public void validarMovimiento(int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino)
             throws MovimientoInvalidoException {
- 
+
         Pieza pieza = tablero.getPieza(filaOrigen, columnaOrigen);
-        ultimoAtacante = null;
-        ultimoDefensor = null;
- 
-        //  No se puede ir a una zona prohibida
+
+        // 1. No se puede ir a una zona prohibida
         if (tablero.esZonaProhibida(filaDestino, columnaDestino) == true) {
             throw new MovimientoInvalidoException("No podés moverte a una zona prohibida");
         }
- 
-        //  Distancia: solo 1 casilla, excepto la Mística
+
+        // 2. No se puede ir a una casilla con una ficha propia
+        if (tablero.estaVacia(filaDestino, columnaDestino) == false
+                && tablero.getPieza(filaDestino, columnaDestino).getBando() == pieza.getBando()) {
+            throw new MovimientoInvalidoException("Ahí ya tenés una ficha tuya");
+        }
+
+        // 3. Distancia: solo 1 casilla, excepto la Mística
         int distancia = Math.abs(filaDestino - filaOrigen) + Math.abs(columnaDestino - columnaOrigen);
         if (distancia != 1) {
             PiezaMovil movil = (PiezaMovil) pieza;
- 
-            
+
+            // REQ-06: polimorfismo, Mistica sobrescribe puedeMoverVariasCasillas() para devolver true
             if (movil.puedeMoverVariasCasillas() == false) {
                 throw new MovimientoInvalidoException("Solo podés moverte una casilla");
             }
             if (filaOrigen != filaDestino && columnaOrigen != columnaDestino) {
                 throw new MovimientoInvalidoException("La Mística solo se mueve en línea recta");
             }
- 
-            // Dirección del movimiento
+
             int pasoFila = 0;
             int pasoColumna = 0;
             if (filaDestino > filaOrigen) {
@@ -90,39 +95,60 @@ public class Partida {
             if (columnaDestino < columnaOrigen) {
                 pasoColumna = -1;
             }
- 
+
             if (caminoLibre(filaOrigen, columnaOrigen, filaDestino, columnaDestino, pasoFila, pasoColumna) == false) {
                 throw new MovimientoInvalidoException("El camino no está libre");
             }
- 
-            // La Mística se revela un momento al moverse varias casillas
+        }
+    }
+
+    // Devuelve true si el movimiento se vale. Lo usa la ventana para marcar las casillas en verde.
+    public boolean esMovimientoValido(int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino) {
+        if (filaOrigen == filaDestino && columnaOrigen == columnaDestino) {
+            return false;                          // la misma casilla no cuenta
+        }
+        try {
+            validarMovimiento(filaOrigen, columnaOrigen, filaDestino, columnaDestino);
+            return true;
+        } catch (MovimientoInvalidoException ex) {
+            return false;
+        }
+    }
+
+    // Mueve una ficha o ataca. Primero valida; si no se vale, la excepción sale hacia la ventana.
+    public void moverPieza(int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino)
+            throws MovimientoInvalidoException {
+
+        validarMovimiento(filaOrigen, columnaOrigen, filaDestino, columnaDestino);
+
+        Pieza pieza = tablero.getPieza(filaOrigen, columnaOrigen);
+        ultimoAtacante = null;
+        ultimoDefensor = null;
+
+        // La Mística se revela un momento al moverse varias casillas
+        int distancia = Math.abs(filaDestino - filaOrigen) + Math.abs(columnaDestino - columnaOrigen);
+        if (distancia != 1) {
             pieza.setRevelada(true);
             ultimoAtacante = pieza;
         }
- 
+
         // Casilla vacía: solo se mueve
         if (tablero.estaVacia(filaDestino, columnaDestino) == true) {
             tablero.quitarPieza(filaOrigen, columnaOrigen);
             tablero.colocarPieza(pieza, filaDestino, columnaDestino);
         } else {
-            //  Casilla ocupada: combate
+            // Casilla con rival: combate
             Pieza defensor = tablero.getPieza(filaDestino, columnaDestino);
- 
-            if (defensor.getBando() == pieza.getBando()) {
-                throw new MovimientoInvalidoException("Ahí ya tenés una ficha tuya");
-            }
- 
-            
-          
+
+            // REQ-03 y REQ-06: se ataca a través de la interfaz Atacante
             Atacante atacante = (Atacante) pieza;
             ResultadoCombate resultado = atacante.atacar(defensor);
- 
-            // Las dos fichas se revelan un momento
+
             pieza.setRevelada(true);
             defensor.setRevelada(true);
             ultimoAtacante = pieza;
             ultimoDefensor = defensor;
-               // Gana
+
             if (resultado == ResultadoCombate.GANA) {
                 eliminar(defensor);
                 tablero.quitarPieza(filaOrigen, columnaOrigen);
@@ -130,28 +156,22 @@ public class Partida {
                 if (defensor instanceof Tierra) {
                     finalizar(pieza.getBando(), TipoVictoria.TIERRA);
                 }
-                // Pierde
             } else if (resultado == ResultadoCombate.PIERDE) {
                 eliminar(pieza);
                 tablero.quitarPieza(filaOrigen, columnaOrigen);
-                // Empate
-            } else {                              
+            } else {
                 eliminar(defensor);
                 eliminar(pieza);
                 tablero.quitarPieza(filaOrigen, columnaOrigen);
                 tablero.quitarPieza(filaDestino, columnaDestino);
             }
         }
- 
-       
+
+        // Cambio de turno y revisión de fin de partida
         cambiarTurno();
- 
-        // sin movimientos
         if (ganador == null && tieneMovimientos(turno, 0) == false) {
             finalizar(contrario(turno), TipoVictoria.SIN_MOVIMIENTOS);
-        }
-        // si no tiene mas ficbas movibles
-        else if (ganador == null && tieneMovimientos(contrario(turno), 0) == false) {
+        } else if (ganador == null && tieneMovimientos(contrario(turno), 0) == false) {
             finalizar(turno, TipoVictoria.SIN_MOVIMIENTOS);
         }
     }

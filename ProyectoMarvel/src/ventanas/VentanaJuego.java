@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import interfaces.Refrescar;
 import javax.swing.Timer;
+import javax.swing.BorderFactory;
+import javax.swing.UIManager;
 
 public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
 
@@ -106,6 +108,22 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
                 }
             }
         }
+        // Marcar la ficha seleccionada (amarillo) y a dónde se puede mover (borde verde)
+        for (int fila = 0; fila < 10; fila++) {
+            for (int columna = 0; columna < 10; columna++) {
+                botones[fila][columna].setBorder(UIManager.getBorder("Button.border"));
+            }
+        }
+        if (filaSeleccionada != -1) {
+            botones[filaSeleccionada][columnaSeleccionada].setBackground(Color.YELLOW);
+            for (int fila = 0; fila < 10; fila++) {
+                for (int columna = 0; columna < 10; columna++) {
+                    if (partida.esMovimientoValido(filaSeleccionada, columnaSeleccionada, fila, columna) == true) {
+                        botones[fila][columna].setBorder(BorderFactory.createLineBorder(Color.GREEN, 4));
+                    }
+                }
+            }
+        }
         actualizarEliminados();
         actualizarTurno();
     }
@@ -180,77 +198,73 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
     private void clicCasilla(int fila, int columna) {
 
         
+         // Durante la pausa entre turnos no se puede hacer nada
         if (cambiandoTurno == true) {
             return;
         }
 
-      
-        if (filaSeleccionada != -1) {
-            try {
-                partida.moverPieza(filaSeleccionada, columnaSeleccionada, fila, columna);
+        Pieza p = tablero.getPieza(fila, columna);
 
-                // Si se revelaron fichas, se vuelven a tapar después de medio segundo
-                if (partida.huboCombate() == true) {
-                    Timer espera = new Timer(500, e -> {
-                        partida.ocultarCombate();
-                        refrescar();
-                    });
-                    espera.setRepeats(false);
-                    espera.start();
-                }
-
-                // Pausa entre turnos
-                cambiandoTurno = true;
-                Timer cambio = new Timer(1500, e -> {
-                    cambiandoTurno = false;
-                    refrescar();
-                });
-                cambio.setRepeats(false);
-                cambio.start();
-
-                // Si termino la partida
-                if (partida.getGanador() != null) {
-                    refrescar();
-                    if (partida.getGanador() == Bando.Heroes) {
-                        JOptionPane.showMessageDialog(this, "¡Ganan los HÉROES!");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "¡Ganan los VILLANOS!");
-                    }
-                    dispose();
-                    return;
-                }
-
-            } catch (MovimientoInvalidoException ex) {
-                
-                JOptionPane.showMessageDialog(this, ex.getMessage());
-            }
-
-            filaSeleccionada = -1;
-            columnaSeleccionada = -1;
+        // ¿Tocó una ficha propia que se puede mover? → se selecciona (o cambia la selección)
+        if (p != null && p.getBando() == partida.getTurno() && p.puedeMoverse() == true) {
+            filaSeleccionada = fila;
+            columnaSeleccionada = columna;
             refrescar();
             return;
         }
 
-       // seleccionar ficha
-        Pieza p = tablero.getPieza(fila, columna);
-
-        if (p == null) {
-            JOptionPane.showMessageDialog(this, "Ahí no hay ninguna ficha");
-            return;
-        }
-        if (p.getBando() != partida.getTurno()) {
-            JOptionPane.showMessageDialog(this, "Esa ficha no es tuya");
-            return;
-        }
-        if (p.puedeMoverse() == false) {
-            JOptionPane.showMessageDialog(this, "Esa ficha no se puede mover");
+        // Si no hay ficha seleccionada, no pasa nada
+        if (filaSeleccionada == -1) {
             return;
         }
 
-       
-        filaSeleccionada = fila;
-        columnaSeleccionada = columna;
-        botones[fila][columna].setBackground(Color.YELLOW);
+        // ----- 2º clic: intentar mover o atacar -----
+        try {
+            partida.moverPieza(filaSeleccionada, columnaSeleccionada, fila, columna);
+
+            filaSeleccionada = -1;
+            columnaSeleccionada = -1;
+
+            // Si se revelaron fichas, se vuelven a tapar después de medio segundo
+            if (partida.huboCombate() == true) {
+                Timer espera = new Timer(500, e -> {
+                    partida.ocultarCombate();
+                    refrescar();
+                });
+                espera.setRepeats(false);
+                espera.start();
+            }
+
+            // ¿Terminó la partida?
+            if (partida.getGanador() != null) {
+                refrescar();
+                if (partida.getGanador() == Bando.Heroes) {
+                    JOptionPane.showMessageDialog(this, "¡Ganan los HÉROES!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "¡Ganan los VILLANOS!");
+                }
+                dispose();
+                return;
+            }
+
+            // Pausa entre turnos
+            cambiandoTurno = true;
+            Timer cambio = new Timer(1500, e -> {
+                cambiandoTurno = false;
+                refrescar();
+            });
+            cambio.setRepeats(false);
+            cambio.start();
+
+        } catch (MovimientoInvalidoException ex) {
+            // REQ-07: se atrapa la excepción propia. En vez de mostrar un mensaje,
+            // solo se quita la selección (las casillas válidas ya se ven en verde).
+            filaSeleccionada = -1;
+            columnaSeleccionada = -1;
+        }
+
+        refrescar();
+    
     
     }
 
