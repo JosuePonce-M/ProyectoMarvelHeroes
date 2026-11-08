@@ -1,32 +1,45 @@
 
 package modelo;
-import java.util.ArrayList ;
 
+import java.util.ArrayList;
+
+/**
+ * Representa a un jugador registrado en el sistema.
+ *
+ */
 public class Jugador {
-    // atributos
-    private String username ;
-    private String  contrasena ;
-    private int puntos = 0 ;
-    private int PartidasHeroes  = 0;
-    private int PartidasVillanos  = 0;
-     private ArrayList <String> log = new ArrayList <> () ;
-  public Jugador ( String username , String contrasena ) {
-     this.username = username ; 
-     this.contrasena = contrasena ;
-     
-  }
 
+    //  ATRIBUTOS 
+    private String username;
+    private String contrasena;
+    private int puntos = 0;
+    private int partidasHeroes = 0;
+    private int partidasVillanos = 0;
+    private ArrayList<String> log = new ArrayList<>();  
+
+   
+    public Jugador(String username, String contrasena) {
+        this.username = username;
+        this.contrasena = contrasena;
+    }
+
+    // HISTORIAL 
+
+    // Agrega un log al inicio de la lista
+    public void agregarLog(String texto) {
+        log.add(0, texto);
+    }
+
+    // GETTERS Y SETTERS 
     public String getUsername() {
         return username;
     }
-
-  
 
     public String getContrasena() {
         return contrasena;
     }
 
-    public void setContrasena(String  contrasena) {
+    public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
 
@@ -39,27 +52,22 @@ public class Jugador {
     }
 
     public int getPartidasHeroes() {
-        return PartidasHeroes;
+        return partidasHeroes;
     }
 
-    public void setPartidasHeroes(int PartidasHeroes) {
-        this.PartidasHeroes = PartidasHeroes;
+    public void setPartidasHeroes(int partidasHeroes) {
+        this.partidasHeroes = partidasHeroes;
     }
 
     public int getPartidasVillanos() {
-        return PartidasVillanos;
+        return partidasVillanos;
     }
 
-    public void setPartidasVillanos(int PartidasVillanos) {
-        this.PartidasVillanos = PartidasVillanos;
+    public void setPartidasVillanos(int partidasVillanos) {
+        this.partidasVillanos = partidasVillanos;
     }
 
     public ArrayList<String> getLog() {
         return log;
     }
-    public void agregarLog(String texto) {
-        log.add(0, texto) ;
-    }
 }
-
- 

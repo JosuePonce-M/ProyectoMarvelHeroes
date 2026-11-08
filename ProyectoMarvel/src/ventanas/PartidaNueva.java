@@ -12,10 +12,17 @@ private Jugador jugadorActual;
   
    public PartidaNueva(ControlUsuarios control, Jugador jugadorActual) {
     initComponents();
+    Estilo.fondo(this);
+    Estilo.titulo(jLabel1);
+    Estilo.texto(jLabel2);
+    Estilo.texto(jLabel3);
+    Estilo.botonPrincipal(Biniiciar);
+    Estilo.botonSecundario(Bcancelar);
     this.control = control;
     this.jugadorActual = jugadorActual;
     comboRival.removeAllItems();
-
+    
+    // Llenar la lista de rivales con todos los jugadores 
     for (int i = 0; i < control.getListaJugadores().size(); i++) {
         Jugador j = control.getListaJugadores().get(i);
        if (j.getUsername().equals(jugadorActual.getUsername()) == false) {
@@ -79,21 +86,21 @@ private Jugador jugadorActual;
                 .addComponent(Bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(164, 164, 164))
             .addGroup(layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(comboBando, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(84, 84, 84)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(comboBando, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(89, 89, 89)
-                                .addComponent(comboRival, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(comboRival, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(148, 148, 148)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(141, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -130,37 +137,35 @@ private Jugador jugadorActual;
 
     private void BiniiciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BiniiciarActionPerformed
         String nombreRival = (String) comboRival.getSelectedItem();
-Jugador rival = control.buscarjugador(nombreRival);
+        Jugador rival = control.buscarjugador(nombreRival);
+         // Repartir los bandos según lo que eligió el jugador actual
+        Jugador heroes;
+        Jugador villanos;
 
-Jugador heroes;
-Jugador villanos;
-// TODO: si comboBando.getSelectedIndex() es 0 (eligió Héroes):
- if(comboBando.getSelectedIndex()== 0) {
-     heroes = jugadorActual ; 
-       villanos = rival ;
-     
+        if(comboBando.getSelectedIndex()== 0) {
+            heroes = jugadorActual ; 
+              villanos = rival ;
+
  }
   else {
         heroes = rival ;
         villanos = jugadorActual ;
     }
 
-Tablero t = new Tablero();
-t.armarBando(t.crearPiezasHeroes(), Bando.Heroes);
-t.armarBando(t.crearPiezasVillanos(), Bando.Villanos);
-Partida partida = new Partida(t, heroes, villanos, control);
-new VentanaJuego(partida).setVisible(true);
-dispose();
+        // Armar el tablero
+        Tablero t = new Tablero();
+        t.armarBando(t.crearPiezasHeroes(), Bando.Heroes);
+        t.armarBando(t.crearPiezasVillanos(), Bando.Villanos);
+        Partida partida = new Partida(t, heroes, villanos, control);
+        new VentanaJuego(partida).setVisible(true);
+        dispose();
     }//GEN-LAST:event_BiniiciarActionPerformed
 
     private void BcancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BcancelarActionPerformed
       dispose();
     }//GEN-LAST:event_BcancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-  
+     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bcancelar;

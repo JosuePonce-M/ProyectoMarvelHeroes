@@ -20,8 +20,8 @@ import javax.swing.Timer;
 
 public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
 
-    private JPanel panelHeroesEliminados = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 4));
-    private JPanel panelVillanosEliminados = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 4));
+    private JPanel panelHeroesEliminados = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+    private JPanel panelVillanosEliminados = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
     private Tablero tablero;
     private Partida partida;
     private JButton[][] botones = new JButton[10][10];
@@ -29,7 +29,9 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
     private int columnaSeleccionada = -1;
     private JLabel etiquetaTurno = new JLabel("", JLabel.CENTER);
     private JButton botonRetiro = new JButton("RETIRO");
-
+    private JLabel etiquetaHeroes = new JLabel("", JLabel.CENTER);
+    private JLabel etiquetaVillanos = new JLabel("", JLabel.CENTER);
+    private boolean cambiandoTurno = false;
     public VentanaJuego(Partida partida) {
         initComponents();
         this.partida = partida;
@@ -37,10 +39,18 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
         crearBotones();
         armarVentana();
         actualizarBotones();
-        jPanel1.setPreferredSize(new java.awt.Dimension(600, 600));
+        jPanel1.setPreferredSize(new java.awt.Dimension(700, 700));
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
+        // Si cierran con la X, cuenta como RETIRO 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            retirarse();
+    }
+});
     }
 
     private void actualizarBotones() {
@@ -60,11 +70,11 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
                 } else {
                     boton.setContentAreaFilled(true);
 
-                    if (p.getBando() == partida.getTurno() || p.isRevelada() == true) {
-                        // FICHA VISIBLE → imagen del personaje
+                if (p.isRevelada() == true || (cambiandoTurno == false && p.getBando() == partida.getTurno())) {
+                        // FICHA VISIBLE
                         ImageIcon icono = cargarIcono(p.getImagen(), 55);
                         if (icono == null) {
-                            // si la imagen no existe, se muestra el texto como antes
+                            
                             boton.setIcon(null);
                             if (p instanceof Tierra) {
                                 boton.setText("T");
@@ -78,7 +88,7 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
                             boton.setText("");
                         }
                     } else {
-                        // FICHA TAPADA → imagen oculta
+                        // FICHA TAPADA
                         if (p.getBando() == Bando.Heroes) {
                             boton.setIcon(cargarIcono("fichas/oculta_heroes.png", 55));
                         } else {
@@ -168,10 +178,18 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
     }
 
     private void clicCasilla(int fila, int columna) {
+
+        
+        if (cambiandoTurno == true) {
+            return;
+        }
+
+      
         if (filaSeleccionada != -1) {
             try {
                 partida.moverPieza(filaSeleccionada, columnaSeleccionada, fila, columna);
 
+                // Si se revelaron fichas, se vuelven a tapar después de medio segundo
                 if (partida.huboCombate() == true) {
                     Timer espera = new Timer(500, e -> {
                         partida.ocultarCombate();
@@ -179,8 +197,18 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
                     });
                     espera.setRepeats(false);
                     espera.start();
-                }                                   
+                }
 
+                // Pausa entre turnos
+                cambiandoTurno = true;
+                Timer cambio = new Timer(1500, e -> {
+                    cambiandoTurno = false;
+                    refrescar();
+                });
+                cambio.setRepeats(false);
+                cambio.start();
+
+                // Si termino la partida
                 if (partida.getGanador() != null) {
                     refrescar();
                     if (partida.getGanador() == Bando.Heroes) {
@@ -193,46 +221,45 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
                 }
 
             } catch (MovimientoInvalidoException ex) {
+                
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
+
             filaSeleccionada = -1;
             columnaSeleccionada = -1;
             refrescar();
             return;
         }
+
+       // seleccionar ficha
         Pieza p = tablero.getPieza(fila, columna);
 
-        //  si p es null 
         if (p == null) {
             JOptionPane.showMessageDialog(this, "Ahí no hay ninguna ficha");
             return;
         }
-        //  si p NO es del bando del turno 
         if (p.getBando() != partida.getTurno()) {
             JOptionPane.showMessageDialog(this, "Esa ficha no es tuya");
             return;
         }
-        // TODO 3: si p NO puede moverse → mensaje "Esa ficha no se puede mover"
         if (p.puedeMoverse() == false) {
             JOptionPane.showMessageDialog(this, "Esa ficha no se puede mover");
             return;
-        } // si pasó todo lo anterior:
-        else {
-
-            filaSeleccionada = fila;
-            columnaSeleccionada = columna;
-            botones[fila][columna].setBackground(Color.YELLOW);
         }
 
-        //   - guardá fila y columna en filaSeleccionada y columnaSeleccionada
+       
+        filaSeleccionada = fila;
+        columnaSeleccionada = columna;
+        botones[fila][columna].setBackground(Color.YELLOW);
+    
     }
 
     
 
     // panel laterales
     private void armarVentana() {
-        panelHeroesEliminados.setPreferredSize(new Dimension(180, 600));
-        panelVillanosEliminados.setPreferredSize(new Dimension(180, 600));
+       panelHeroesEliminados.setPreferredSize(new Dimension(300, 700));
+        panelVillanosEliminados.setPreferredSize(new Dimension(300, 700));
         panelHeroesEliminados.setBackground(new Color(20, 30, 80));
         panelVillanosEliminados.setBackground(new Color(80, 20, 20));
 
@@ -245,7 +272,18 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
         JPanel barra = new JPanel(new BorderLayout());
         barra.setBackground(Color.BLACK);
         etiquetaTurno.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 22));
-        barra.add(etiquetaTurno, BorderLayout.CENTER);
+        JPanel centro = new JPanel(new GridLayout(1, 3));
+        centro.setOpaque(false);
+
+        etiquetaHeroes.setForeground(new Color(80, 150, 255));
+        etiquetaHeroes.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
+        etiquetaVillanos.setForeground(new Color(255, 80, 80));
+        etiquetaVillanos.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
+
+        centro.add(etiquetaHeroes);
+        centro.add(etiquetaTurno);
+        centro.add(etiquetaVillanos);
+        barra.add(centro, BorderLayout.CENTER);
         barra.add(botonRetiro, BorderLayout.EAST);
         getContentPane().add(barra, BorderLayout.NORTH);
 
@@ -258,13 +296,13 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
 
         for (int i = 0; i < partida.getEliminadosHeroes().size(); i++) {
             Pieza p = partida.getEliminadosHeroes().get(i);
-            panelHeroesEliminados.add(new JLabel(cargarIcono(p.getImagen(), 50)));
+            panelHeroesEliminados.add(new JLabel(cargarIcono(p.getImagen(), 60)));
 
         }
 
         for (int i = 0; i < partida.getEliminadosVillanos().size(); i++) {
             Pieza p = partida.getEliminadosVillanos().get(i);
-            panelVillanosEliminados.add(new JLabel(cargarIcono(p.getImagen(), 40)));
+            panelVillanosEliminados.add(new JLabel(cargarIcono(p.getImagen(), 60)));
 
         }
         panelHeroesEliminados.revalidate();
@@ -275,15 +313,28 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
 
     private void actualizarTurno() {
 
-        // TODO: si el turno es Héroes:
+        
         if (partida.getTurno() == Bando.Heroes) {
            etiquetaTurno.setText("Turno: HÉROES (" + partida.getJugadorEnTurno().getUsername() + ")");
-            etiquetaTurno.setForeground(new Color(80, 150, 255));   // azul claro
+            etiquetaTurno.setForeground(new Color(80, 150, 255));   
         } else {
             etiquetaTurno.setText("Turno: VILLANOS (" + partida.getJugadorEnTurno().getUsername() + ")") ;
             etiquetaTurno.setForeground(new Color(255, 80, 80));
         }
+    int quedanHeroes = 40 - partida.getEliminadosHeroes().size();
+    int quedanVillanos = 40 - partida.getEliminadosVillanos().size();
 
+    String palabraHeroes = "fichas";
+    if (quedanHeroes == 1) {
+        palabraHeroes = "ficha";
+    }
+    String palabraVillanos = "fichas";
+    if (quedanVillanos == 1) {
+        palabraVillanos = "ficha";
+    }
+
+    etiquetaHeroes.setText("HÉROES: " + quedanHeroes + " " + palabraHeroes);
+    etiquetaVillanos.setText("VILLANOS: " + quedanVillanos + " " + palabraVillanos);
     }
 
     // mertodo retirarse

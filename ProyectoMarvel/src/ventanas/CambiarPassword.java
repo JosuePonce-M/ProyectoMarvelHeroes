@@ -12,6 +12,16 @@ private Jugador jugadorActual;
    
     public CambiarPassword(ControlUsuarios control, Jugador jugador) {
         initComponents();
+        Estilo.fondo(this);
+        Estilo.texto(jLabel1);
+        Estilo.texto(jLabel2);
+       
+        Estilo.botonPrincipal(BCAMBIAR);
+        Estilo.botonSecundario(BCANCELAR);
+        chkMostrar.setForeground(java.awt.Color.WHITE);
+        chkMostrar.setOpaque(false);
+        
+        setLocationRelativeTo(null);
             this.control = control;
         this.jugadorActual = jugador ;
     }
@@ -23,29 +33,20 @@ private Jugador jugadorActual;
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtnuevo = new javax.swing.JTextField();
-        txtactual1 = new javax.swing.JTextField();
         BCAMBIAR = new javax.swing.JButton();
         BCANCELAR = new javax.swing.JButton();
-        lmensaje = new javax.swing.JLabel();
+        chkMostrar = new javax.swing.JCheckBox();
+        txtactual1 = new javax.swing.JPasswordField();
+        txtnuevo = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cambiar Password");
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jLabel1.setText("Password nuevo");
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jLabel2.setText("Password actual");
-
-        txtnuevo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtnuevoFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtnuevoFocusLost(evt);
-            }
-        });
 
         BCAMBIAR.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         BCAMBIAR.setText("CAMBIAR");
@@ -63,13 +64,11 @@ private Jugador jugadorActual;
             }
         });
 
-        lmensaje.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        lmensaje.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                lmensajeFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                lmensajeFocusLost(evt);
+        chkMostrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        chkMostrar.setText("Mostrar contraseña");
+        chkMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkMostrarActionPerformed(evt);
             }
         });
 
@@ -77,55 +76,59 @@ private Jugador jugadorActual;
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(chkMostrar)
+                .addGap(141, 141, 141))
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtactual1))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BCAMBIAR, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(BCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(BCANCELAR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lmensaje, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(56, 56, 56)
-                    .addComponent(BCAMBIAR, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(213, Short.MAX_VALUE)))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(txtnuevo))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(txtactual1, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)))))
+                .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(81, 81, 81)
+                .addContainerGap(90, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtactual1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtnuevo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(BCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(217, Short.MAX_VALUE)
-                    .addComponent(BCAMBIAR, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(45, 45, 45)))
+                    .addComponent(txtactual1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(chkMostrar)
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BCAMBIAR, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(62, 62, 62))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
  // boton cambiar
     private void BCAMBIARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCAMBIARActionPerformed
-     String actual = txtactual1.getText();
-     String nueva = txtnuevo.getText();
+     String actual = new String(txtactual1.getPassword());   
+     String nueva = new String(txtnuevo.getPassword());
 try {
     control.cambiarPassword(jugadorActual, actual , nueva);
     JOptionPane.showMessageDialog(this, "Password cambiado");
@@ -136,41 +139,32 @@ try {
     JOptionPane.showMessageDialog(this, e.getMessage());
 }
     }//GEN-LAST:event_BCAMBIARActionPerformed
-
+        // boton de cancelar
     private void BCANCELARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCANCELARActionPerformed
       
         dispose() ;
     }//GEN-LAST:event_BCANCELARActionPerformed
+     // para mostrar la contrasena
+    private void chkMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMostrarActionPerformed
+        if (chkMostrar.isSelected() == true) {
+        txtactual1.setEchoChar((char) 0);
+        txtnuevo.setEchoChar((char) 0);
+    } else {
+        txtactual1.setEchoChar('•');
+        txtnuevo.setEchoChar('•');
+    }
 
-    private void lmensajeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lmensajeFocusGained
-        // TODO add your handling code here:
-        lmensaje.setText("Escribe exactamente 5 caracteres");
-    }//GEN-LAST:event_lmensajeFocusGained
-
-    private void lmensajeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lmensajeFocusLost
-        // TODO add your handling code here:
-        lmensaje.setText("");
-    }//GEN-LAST:event_lmensajeFocusLost
-
-    private void txtnuevoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtnuevoFocusGained
-        // TODO add your handling code here:
-         lmensaje.setText("Escribe exactamente 5 caracteres");
-    }//GEN-LAST:event_txtnuevoFocusGained
-
-    private void txtnuevoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtnuevoFocusLost
-        // TODO add your handling code here:
-         lmensaje.setText("");
-    }//GEN-LAST:event_txtnuevoFocusLost
+    }//GEN-LAST:event_chkMostrarActionPerformed
 
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BCAMBIAR;
     private javax.swing.JButton BCANCELAR;
+    private javax.swing.JCheckBox chkMostrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel lmensaje;
-    private javax.swing.JTextField txtactual1;
-    private javax.swing.JTextField txtnuevo;
+    private javax.swing.JPasswordField txtactual1;
+    private javax.swing.JPasswordField txtnuevo;
     // End of variables declaration//GEN-END:variables
 }

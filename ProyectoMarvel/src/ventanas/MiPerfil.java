@@ -1,5 +1,8 @@
 
 package ventanas;
+/**
+ * Mi Perfil: muestra los datos del jugador (sin el password) y su historial de partidas,
+ */
 import logica.ControlUsuarios ;
 import modelo.Jugador ;
 import excepciones.PasswordInvalidoException ;
@@ -9,18 +12,30 @@ public class MiPerfil extends javax.swing.JFrame {
 private ControlUsuarios control;
 private Jugador jugadorActual;
 private MenuPrincipal menu;
+private CambiarPassword ventanaPassword;
    
     public MiPerfil(ControlUsuarios control , Jugador jugador , MenuPrincipal menu) {
         initComponents();
+        Estilo.fondo(this);
+        Estilo.titulo(jLabel1);
+        Estilo.texto(lusername);
+        Estilo.texto(lPuntos);
+        Estilo.texto(lHeroes);
+        Estilo.texto(lVillanos);
+        Estilo.texto(jLabel6);
+        Estilo.botonPrincipal(BCAMBIARPASWORD);
+        Estilo.botonSecundario(BELIMINAR);
+        Estilo.botonSecundario(BVOLVER);
         this.control = control ;
         this.jugadorActual = jugador ;
         this.menu = menu ;
        
-          lusername.setText("Username: " + jugador.getUsername());
+    lusername.setText("Username: " + jugador.getUsername());
     lPuntos.setText("Puntos: " + jugador.getPuntos());
     lHeroes.setText("Partidas con Héroes: " + jugador.getPartidasHeroes());
     lVillanos.setText("Partidas con Villanos: " + jugador.getPartidasVillanos());
 
+    // Historial
    if (jugador.getLog().size() == 0) {
     txtHistorial.setText("Todavía no hay partidas jugadas");
     } else {
@@ -127,8 +142,9 @@ private MenuPrincipal menu;
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
                         .addComponent(BCAMBIARPASWORD)
-                        .addGap(30, 30, 30)
+                        .addGap(18, 18, 18)
                         .addComponent(BELIMINAR)
                         .addGap(39, 39, 39)
                         .addComponent(BVOLVER, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -149,16 +165,16 @@ private MenuPrincipal menu;
                 .addComponent(lHeroes, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lVillanos, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BCAMBIARPASWORD, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BELIMINAR, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BVOLVER, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(BVOLVER, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BCAMBIARPASWORD, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -166,8 +182,12 @@ private MenuPrincipal menu;
     }// </editor-fold>//GEN-END:initComponents
  // boton cambiar contraseña
     private void BCAMBIARPASWORDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCAMBIARPASWORDActionPerformed
-       CambiarPassword ventana = new CambiarPassword(control, jugadorActual);
-       ventana.setVisible(true);
+      if (ventanaPassword == null || ventanaPassword.isDisplayable() == false) {
+    ventanaPassword = new CambiarPassword(control, jugadorActual);
+    ventanaPassword.setVisible(true);
+    } else {
+    ventanaPassword.toFront();
+        }
     }//GEN-LAST:event_BCAMBIARPASWORDActionPerformed
  // boton eliminar cuenta
     private void BELIMINARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BELIMINARActionPerformed

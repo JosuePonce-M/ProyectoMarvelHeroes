@@ -10,7 +10,7 @@ public Scout(String nombre, Bando bando, String imagen) {
 
 @Override
   public ResultadoCombate atacar(Pieza defensor) {
-      // si el defensor es una Bomba → GANA
+      // si el defensor es una Bomba = GANA
       if( defensor instanceof Bomba) {
           return ResultadoCombate.GANA ;
       }

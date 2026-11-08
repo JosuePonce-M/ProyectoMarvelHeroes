@@ -1,19 +1,30 @@
 
 package ventanas;
+/**
+ * Menú principal: aparece después de iniciar sesión.
+ * 
+ */
 import logica.ControlUsuarios ;
 import modelo.Jugador ;
 import javax.swing.JOptionPane ;
 
 public class MenuPrincipal extends javax.swing.JFrame {
 private ControlUsuarios control ;
-private Jugador jugadorActual ;
- 
+private Jugador jugadorActual ;         
+private javax.swing.JFrame ventanaAbierta; 
     public MenuPrincipal(ControlUsuarios control ,  Jugador jugador) {
         initComponents();
+         Estilo.fondo(this);
+        Estilo.titulo(jLabel1);   
+         Estilo.texto(lmensaje);     
+         Estilo.botonPrincipal(BpartidaNueva);
+        Estilo.botonPrincipal(Bperfil);
+        Estilo.botonPrincipal(BUniverso);
+        Estilo.botonSecundario(BCerrarSeccion);
         this.control = control ;
         this.jugadorActual = jugador ;
     
-        lmensaje.setText("Bienvenido, " + jugador.getUsername());
+        lmensaje.setText("Bienvenido  " + jugador.getUsername());
     }
 
   
@@ -30,12 +41,12 @@ private Jugador jugadorActual ;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Marvel Heroes Stratego");
         jLabel1.setToolTipText("");
 
-        Bperfil.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        Bperfil.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         Bperfil.setText("MI PERFIL");
         Bperfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -43,7 +54,7 @@ private Jugador jugadorActual ;
             }
         });
 
-        BpartidaNueva.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BpartidaNueva.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         BpartidaNueva.setText("PARTIDA NUEVA");
         BpartidaNueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -51,7 +62,7 @@ private Jugador jugadorActual ;
             }
         });
 
-        BCerrarSeccion.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BCerrarSeccion.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         BCerrarSeccion.setText("CERRAR SESIÓN");
         BCerrarSeccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,7 +70,7 @@ private Jugador jugadorActual ;
             }
         });
 
-        BUniverso.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BUniverso.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         BUniverso.setText("UNIVERSO MARVEL");
         BUniverso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,43 +78,49 @@ private Jugador jugadorActual ;
             }
         });
 
-        lmensaje.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lmensaje.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(120, 120, 120)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(BpartidaNueva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Bperfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BUniverso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BCerrarSeccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(86, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Bperfil, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BpartidaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BCerrarSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BUniverso))
+                .addGap(175, 175, 175))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(163, 163, 163))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {BCerrarSeccion, BUniverso, BpartidaNueva, Bperfil});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(10, 10, 10)
-                .addComponent(lmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BpartidaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Bperfil, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BUniverso, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(BpartidaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(BCerrarSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addComponent(Bperfil, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(BUniverso, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(BCerrarSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         pack();
@@ -122,26 +139,42 @@ private Jugador jugadorActual ;
         dispose();
 }
     }//GEN-LAST:event_BCerrarSeccionActionPerformed
-
+     
     private void BperfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BperfilActionPerformed
-     MiPerfil perfil = new MiPerfil(control, jugadorActual, this);
-        perfil.setVisible(true);
+   if (hayVentanaAbierta() == true) {
+            return;
+        }
+        ventanaAbierta = new MiPerfil(control, jugadorActual, this);
+        ventanaAbierta.setVisible(true);
     }//GEN-LAST:event_BperfilActionPerformed
 
     private void BpartidaNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BpartidaNuevaActionPerformed
     
-      if( control.getListaJugadores().size() <2) {
-          System.out.println("Se necesita al menos otro jugador registrado para jugar");
-      }
-      else {
-          PartidaNueva ventana = new PartidaNueva(control , jugadorActual);
-          ventana.setVisible(true);
-      }
+     if (control.getListaJugadores().size() < 2) {
+            JOptionPane.showMessageDialog(this, "Se necesita al menos otro jugador registrado para jugar");
+            return;
+        }
+        if (hayVentanaAbierta() == true) {
+            return;
+        }
+        ventanaAbierta = new PartidaNueva(control, jugadorActual);
+        ventanaAbierta.setVisible(true);
     }//GEN-LAST:event_BpartidaNuevaActionPerformed
 
     private void BUniversoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUniversoActionPerformed
-       UniversoMarvel ventana = new UniversoMarvel(control);
-        ventana.setVisible(true); 
+      if (hayVentanaAbierta() == true) {
+            return;
+        }
+        ventanaAbierta = new UniversoMarvel(control);
+        ventanaAbierta.setVisible(true);
+    }
+       private boolean hayVentanaAbierta() {
+        if (ventanaAbierta != null && ventanaAbierta.isDisplayable() == true) {
+            ventanaAbierta.toFront();
+            return true;
+        }
+        return false;
+    
     }//GEN-LAST:event_BUniversoActionPerformed
 
     

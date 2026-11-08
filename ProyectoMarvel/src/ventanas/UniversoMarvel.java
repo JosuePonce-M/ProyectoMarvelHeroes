@@ -1,6 +1,10 @@
 
 package ventanas;
 
+/**
+ * Universo Marvel: muestra el Ranking de jugadores por puntos
+ * y las estadísticas globales de Batallas.
+ */
 import java.util.ArrayList;
 import logica.ControlUsuarios;
 import modelo.Bando;
@@ -10,6 +14,11 @@ public class UniversoMarvel extends javax.swing.JFrame {
  private ControlUsuarios control;  
   public UniversoMarvel(ControlUsuarios control) {
     initComponents();
+    Estilo.fondo(this);
+    Estilo.titulo(jLabel1);
+    Estilo.botonPrincipal(bRanking);
+    Estilo.botonPrincipal(bBatallas);
+    Estilo.botonSecundario(bVolver);
     this.control = control;
     txtResultado.setEditable(false);
    }
@@ -64,7 +73,7 @@ public class UniversoMarvel extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(90, Short.MAX_VALUE)
                 .addComponent(bRanking, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45)
                 .addComponent(bBatallas, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -77,9 +86,9 @@ public class UniversoMarvel extends javax.swing.JFrame {
                         .addGap(33, 33, 33)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(216, 216, 216)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                        .addGap(211, 211, 211)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,25 +111,26 @@ public class UniversoMarvel extends javax.swing.JFrame {
 
     private void bRankingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRankingActionPerformed
 
-  ArrayList<Jugador> lista = new ArrayList<>(control.getListaJugadores());
+   
+        ArrayList<Jugador> lista = new ArrayList<>(control.getListaJugadores());
 
-for (int i = 0; i < lista.size() - 1; i++) {
-    for (int j = 0; j < lista.size() - 1 - i; j++) {
-        if (lista.get(j).getPuntos() < lista.get(j + 1).getPuntos()) {
-            Jugador temp = lista.get(j);
-            lista.set(j, lista.get(j + 1));
-            lista.set(j + 1, temp);
+        // Ordenar de mayor a menor puntaje 
+        for (int i = 0; i < lista.size() - 1; i++) {
+            for (int j = 0; j < lista.size() - 1 - i; j++) {
+                if (lista.get(j).getPuntos() < lista.get(j + 1).getPuntos()) {
+                    Jugador temp = lista.get(j);
+                    lista.set(j, lista.get(j + 1));
+                    lista.set(j + 1, temp);
+                }
+            }
         }
-    }
-}
-// mostrar
- txtResultado.setText("RANKING\n\n");
- for (int i = 0; i < lista.size(); i++) {
-    Jugador j = lista.get(i);
-    
-    txtResultado.append((i + 1) + " — " + j.getUsername() + " — " + j.getPuntos() + "\n");
-    
-} 
+
+        // Mostrar 
+        txtResultado.setText("RANKING\n\n");
+        for (int i = 0; i < lista.size(); i++) {
+            Jugador j = lista.get(i);
+            txtResultado.append((i + 1) + " — " + j.getUsername() + " — " + j.getPuntos() + "\n");
+        }
     }//GEN-LAST:event_bRankingActionPerformed
 
     private void bVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVolverActionPerformed
@@ -128,18 +138,18 @@ for (int i = 0; i < lista.size() - 1; i++) {
     }//GEN-LAST:event_bVolverActionPerformed
 
     private void bBatallasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBatallasActionPerformed
-      int activos = control.getListaJugadores().size();
+     int activos = control.getListaJugadores().size();
     int historicos = control.getUsuariosHistoricos() ;  
     int partidas = control.getHistorialPartidas().size();
     int ganaHeroes = control.contarVictorias(Bando.Heroes, 0) ;
     int ganaVillanos = control.contarVictorias(Bando.Villanos, 0) ;
 
-txtResultado.setText("BATALLAS\n\n");
-txtResultado.append("Usuarios activos: " + activos + "\n");
-txtResultado.append("Usuarios históricos: " + historicos + "\n");
-txtResultado.append("Partidas jugadas: " + partidas + "\n");
-txtResultado.append("   Ganaron los HÉROES: " + ganaHeroes + "\n");
-txtResultado.append("   Ganaron los VILLANOS: " + ganaVillanos + "\n");
+    txtResultado.setText("BATALLAS\n\n");
+    txtResultado.append("Usuarios activos: " + activos + "\n");
+    txtResultado.append("Usuarios históricos: " + historicos + "\n");
+    txtResultado.append("Partidas jugadas: " + partidas + "\n");
+    txtResultado.append("Ganaron los HÉROES: " + ganaHeroes + "\n");
+    txtResultado.append("Ganaron los VILLANOS: " + ganaVillanos + "\n");
 
     }//GEN-LAST:event_bBatallasActionPerformed
 

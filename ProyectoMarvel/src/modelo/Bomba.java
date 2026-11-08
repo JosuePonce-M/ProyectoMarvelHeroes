@@ -7,6 +7,7 @@ public class Bomba extends Pieza {
         super("Bomba" , 0 , bando , imagen) ;
         
     }
+    @Override
     public boolean puedeMoverse () {
         return false ;
     }
