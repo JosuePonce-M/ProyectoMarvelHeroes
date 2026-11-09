@@ -15,7 +15,7 @@ private Jugador jugadorActual;
         Estilo.fondo(this);
         Estilo.texto(jLabel1);
         Estilo.texto(jLabel2);
-       
+       Estilo.texto(LMensaje);
         Estilo.botonPrincipal(BCAMBIAR);
         Estilo.botonSecundario(BCANCELAR);
         chkMostrar.setForeground(java.awt.Color.WHITE);
@@ -38,6 +38,7 @@ private Jugador jugadorActual;
         chkMostrar = new javax.swing.JCheckBox();
         txtactual1 = new javax.swing.JPasswordField();
         txtnuevo = new javax.swing.JPasswordField();
+        LMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cambiar Password");
@@ -72,6 +73,31 @@ private Jugador jugadorActual;
             }
         });
 
+        txtactual1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtactual1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtactual1FocusLost(evt);
+            }
+        });
+        txtactual1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtactual1ActionPerformed(evt);
+            }
+        });
+
+        txtnuevo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtnuevoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtnuevoFocusLost(evt);
+            }
+        });
+
+        LMensaje.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,15 +106,12 @@ private Jugador jugadorActual;
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(chkMostrar)
                 .addGap(141, 141, 141))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BCAMBIAR, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)
-                        .addComponent(BCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(LMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -98,13 +121,19 @@ private Jugador jugadorActual;
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(38, 38, 38)
-                                .addComponent(txtactual1, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)))))
+                                .addComponent(txtactual1, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BCAMBIAR, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(BCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)))
                 .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(90, Short.MAX_VALUE)
+                .addContainerGap(86, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtactual1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -112,14 +141,16 @@ private Jugador jugadorActual;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
-                        .addComponent(chkMostrar)
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(BCAMBIAR, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(chkMostrar))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BCAMBIAR, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(62, 62, 62))
         );
 
@@ -156,11 +187,40 @@ try {
 
     }//GEN-LAST:event_chkMostrarActionPerformed
 
+    private void txtactual1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtactual1ActionPerformed
+        // TODO add your handling code here:
+        LMensaje.setText("Escribe exactamente 5 caracteres");
+    }//GEN-LAST:event_txtactual1ActionPerformed
+
+    private void txtactual1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtactual1FocusGained
+        // TODO add your handling code here:
+         LMensaje.setText("Escribe exactamente 5 caracteres");
+        
+        
+    }//GEN-LAST:event_txtactual1FocusGained
+
+    private void txtnuevoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtnuevoFocusLost
+        // TODO add your handling code here:
+         LMensaje.setText("");
+        
+    }//GEN-LAST:event_txtnuevoFocusLost
+
+    private void txtnuevoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtnuevoFocusGained
+        // TODO add your handling code here:
+        LMensaje.setText("Escribe exactamente 5 caracteres");
+    }//GEN-LAST:event_txtnuevoFocusGained
+
+    private void txtactual1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtactual1FocusLost
+        // TODO add your handling code here:
+         LMensaje.setText("");
+    }//GEN-LAST:event_txtactual1FocusLost
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BCAMBIAR;
     private javax.swing.JButton BCANCELAR;
+    private javax.swing.JLabel LMensaje;
     private javax.swing.JCheckBox chkMostrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
