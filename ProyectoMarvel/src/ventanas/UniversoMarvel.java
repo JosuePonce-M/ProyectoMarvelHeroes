@@ -1,10 +1,7 @@
 
 package ventanas;
 
-/**
- * Universo Marvel: muestra el Ranking de jugadores por puntos
- * y las estadísticas globales de Batallas.
- */
+
 import java.util.ArrayList;
 import logica.ControlUsuarios;
 import modelo.Bando;

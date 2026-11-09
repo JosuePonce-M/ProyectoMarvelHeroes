@@ -12,5 +12,9 @@ public class Tierra extends Pieza {
   @Override
     public boolean puedeMoverse () {
         return false ;
-    }  
+    } 
+    @Override
+    public String getSimbolo() {
+        return "T";
+    }
 }

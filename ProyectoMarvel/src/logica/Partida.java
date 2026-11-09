@@ -5,11 +5,7 @@ import interfaces.Atacante;
 import java.util.ArrayList;
 import modelo.*;
  
-/**
- * Maneja las reglas de una partida: turnos, movimientos, combates,
- * fichas eliminadas y el fin del juego (puntos, contadores y logs).
- * 
- */
+
 public class Partida {
  
     //  ATRIBUTOS 
@@ -49,31 +45,29 @@ public class Partida {
  
     //  MOVIMIENTO Y COMBATE
  
-    // Mueve una ficha o ataca.
-    // Revisa si un movimiento se vale, SIN hacerlo.
-    // REQ-07: lanza MovimientoInvalidoException si no se vale.
+  
     public void validarMovimiento(int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino)
             throws MovimientoInvalidoException {
 
         Pieza pieza = tablero.getPieza(filaOrigen, columnaOrigen);
 
-        // 1. No se puede ir a una zona prohibida
+        //  No se puede ir a una zona prohibida
         if (tablero.esZonaProhibida(filaDestino, columnaDestino) == true) {
             throw new MovimientoInvalidoException("No podés moverte a una zona prohibida");
         }
 
-        // 2. No se puede ir a una casilla con una ficha propia
+        
         if (tablero.estaVacia(filaDestino, columnaDestino) == false
                 && tablero.getPieza(filaDestino, columnaDestino).getBando() == pieza.getBando()) {
             throw new MovimientoInvalidoException("Ahí ya tenés una ficha tuya");
         }
 
-        // 3. Distancia: solo 1 casilla, excepto la Mística
+       
         int distancia = Math.abs(filaDestino - filaOrigen) + Math.abs(columnaDestino - columnaOrigen);
         if (distancia != 1) {
             PiezaMovil movil = (PiezaMovil) pieza;
 
-            // REQ-06: polimorfismo, Mistica sobrescribe puedeMoverVariasCasillas() para devolver true
+          
             if (movil.puedeMoverVariasCasillas() == false) {
                 throw new MovimientoInvalidoException("Solo podés moverte una casilla");
             }
@@ -102,10 +96,10 @@ public class Partida {
         }
     }
 
-    // Devuelve true si el movimiento se vale. Lo usa la ventana para marcar las casillas en verde.
+  
     public boolean esMovimientoValido(int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino) {
         if (filaOrigen == filaDestino && columnaOrigen == columnaDestino) {
-            return false;                          // la misma casilla no cuenta
+            return false;                         
         }
         try {
             validarMovimiento(filaOrigen, columnaOrigen, filaDestino, columnaDestino);
@@ -115,7 +109,7 @@ public class Partida {
         }
     }
 
-    // Mueve una ficha o ataca. Primero valida; si no se vale, la excepción sale hacia la ventana.
+    // Mueve una ficha o ataca.
     public void moverPieza(int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino)
             throws MovimientoInvalidoException {
 
@@ -125,22 +119,22 @@ public class Partida {
         ultimoAtacante = null;
         ultimoDefensor = null;
 
-        // La Mística se revela un momento al moverse varias casillas
+        
         int distancia = Math.abs(filaDestino - filaOrigen) + Math.abs(columnaDestino - columnaOrigen);
         if (distancia != 1) {
             pieza.setRevelada(true);
             ultimoAtacante = pieza;
         }
 
-        // Casilla vacía: solo se mueve
+       
         if (tablero.estaVacia(filaDestino, columnaDestino) == true) {
             tablero.quitarPieza(filaOrigen, columnaOrigen);
             tablero.colocarPieza(pieza, filaDestino, columnaDestino);
         } else {
-            // Casilla con rival: combate
+          
             Pieza defensor = tablero.getPieza(filaDestino, columnaDestino);
 
-            // REQ-03 y REQ-06: se ataca a través de la interfaz Atacante
+          
             Atacante atacante = (Atacante) pieza;
             ResultadoCombate resultado = atacante.atacar(defensor);
 
@@ -185,7 +179,7 @@ public class Partida {
         }
     }
  
-    // Indica si en el último movimiento se reveló alguna ficha (combate o Mística).
+    
     public boolean huboCombate() {
         if (ultimoAtacante != null) {
             return true;
@@ -194,7 +188,7 @@ public class Partida {
         }
     }
  
-    // Vuelve a tapar las fichas que se revelaron en el último movimiento.
+    
     public void ocultarCombate() {
         ultimoAtacante.setRevelada(false);
         if (ultimoDefensor != null) {
@@ -211,11 +205,11 @@ public class Partida {
         int siguienteColumna = columna + pasoColumna;
  
         if (siguienteFila == filaDestino && siguienteColumna == columnaDestino) {
-            return true;  // Caso base 1
+            return true;  
         }
         if (tablero.esZonaProhibida(siguienteFila, siguienteColumna) == true
                 || tablero.estaVacia(siguienteFila, siguienteColumna) == false) {
-            return false; // caso base 2
+            return false; 
         }
         return caminoLibre(siguienteFila, siguienteColumna, filaDestino, columnaDestino, pasoFila, pasoColumna);
     }
@@ -225,7 +219,7 @@ public class Partida {
     
     public boolean tieneMovimientos(Bando bando, int posicion) {
         if (posicion == 100) {
-            return false;   // Caso base: 
+            return false;   
         }
  
         int fila = posicion / 10;
@@ -256,8 +250,7 @@ public class Partida {
         return false;
     }
  
-    // Una casilla está disponible si está dentro del tablero, no es prohibida
-    // y está vacía o tiene una ficha rival.
+   
     private boolean casillaDisponible(int fila, int columna, Bando bando) {
         if (fila < 0 || fila > 9 || columna < 0 || columna > 9) {
             return false;                         
@@ -276,14 +269,14 @@ public class Partida {
  
     //  FIN DE PARTIDA 
  
-    // Termina la partida: suma puntos, cuenta partidas por bando, guarda el log y el historial.
+    // Termina la partida: suma puntos.
     public void finalizar(Bando bandoGanador, TipoVictoria tipo) {
         ganador = bandoGanador;
         Bando bandoPerdedor = contrario(bandoGanador);
         Jugador vencedor = getJugador(bandoGanador);
         Jugador perdedor = getJugador(bandoPerdedor);
  
-        // Puntos
+       
         vencedor.setPuntos(vencedor.getPuntos() + 3);
  
         // Contadores de partidas por bando
@@ -340,7 +333,7 @@ public class Partida {
         return Bando.Heroes;
     }
  
-    // Nombre del bando en mayúsculas para los logs.
+    // Nombre del bando en mayúsculas
     private String nombreBando(Bando bando) {
         if (bando == Bando.Heroes) {
             return "HÉROES";

@@ -3,10 +3,7 @@ package modelo;
 
 import java.util.ArrayList;
 
-/**
- * Representa a un jugador registrado en el sistema.
- *
- */
+
 public class Jugador {
 
     //  ATRIBUTOS 

@@ -11,4 +11,8 @@ public class Bomba extends Pieza {
     public boolean puedeMoverse () {
         return false ;
     }
+      @Override
+    public String getSimbolo() {
+        return "B";
+    }
 }

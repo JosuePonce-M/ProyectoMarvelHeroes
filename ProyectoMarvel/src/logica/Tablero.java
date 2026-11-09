@@ -5,11 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import modelo.*;
  
-/**
- * Representa el tablero de 10x10. Guarda en qué casilla está cada ficha,
- * crea las 40 fichas de cada bando y las acomoda con la formación aleatoria del PDF.
- * Las fichas no saben su posición: solo el tablero la guarda.
- */
+
 public class Tablero {
  
     //  ATRIBUTOS 
@@ -55,7 +51,7 @@ public class Tablero {
     // CREACIÓN DE LAS FICHAS 
    
  
-    // Crea las 40 fichas de los Héroes.
+   
     public ArrayList<Pieza> crearPiezasHeroes() {
         ArrayList<Pieza> lista = new ArrayList<>();
         String c = "fichas/heroes_azul/";
@@ -196,7 +192,7 @@ public class Tablero {
             }
         }
  
-        // 2. Filas según el bando 
+      
         int filaUltima;
         int filaFrente;
         int filaBombas;

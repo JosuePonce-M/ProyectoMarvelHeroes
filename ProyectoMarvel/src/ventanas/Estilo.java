@@ -13,12 +13,12 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 public class Estilo {
  
-    public static final Color FONDO       = new Color(15, 26, 46);    // azul oscuro
-    public static final Color ROJO        = new Color(230, 36, 41);   // botones
-    public static final Color ROJO_CLARO  = new Color(255, 75, 80);   // botón con el mouse encima
-    public static final Color SECUNDARIO  = new Color(42, 53, 80);    // cerrar sesión, volver, cancelar
+    public static final Color FONDO       = new Color(15, 26, 46);    
+    public static final Color ROJO        = new Color(230, 36, 41);   
+    public static final Color ROJO_CLARO  = new Color(255, 75, 80);  
+    public static final Color SECUNDARIO  = new Color(42, 53, 80);   
     public static final Color SECUNDARIO_CLARO = new Color(62, 76, 110);
-    public static final Color DORADO      = new Color(240, 185, 11);  // títulos
+    public static final Color DORADO      = new Color(240, 185, 11);  
     public static final Color TEXTO       = Color.WHITE;
 
     // Fondo ventana

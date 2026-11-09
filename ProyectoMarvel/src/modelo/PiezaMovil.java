@@ -14,6 +14,10 @@ public class PiezaMovil extends Pieza implements Atacante {
       return false ;
   }
   @Override
+    public String getSimbolo() {
+        return "" + getRango();
+    }
+  @Override
   public ResultadoCombate atacar(Pieza defensor) {
       // caso #1 si ataca una bomba , pierde
       if(defensor instanceof Bomba) {

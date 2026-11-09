@@ -18,8 +18,9 @@ public abstract class Pieza {
      revelada = false ;
      
      }
-     // metodo abstrato
+     
      public abstract boolean puedeMoverse() ;
+     public abstract String getSimbolo();
 
     public String getNombre() {
         return nombre;

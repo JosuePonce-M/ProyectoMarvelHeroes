@@ -78,13 +78,7 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
                         if (icono == null) {
                             
                             boton.setIcon(null);
-                            if (p instanceof Tierra) {
-                                boton.setText("T");
-                            } else if (p instanceof Bomba) {
-                                boton.setText("B");
-                            } else {
-                                boton.setText("" + p.getRango());
-                            }
+                             boton.setText(p.getSimbolo());
                         } else {
                             boton.setIcon(icono);
                             boton.setText("");
@@ -205,7 +199,7 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
 
         Pieza p = tablero.getPieza(fila, columna);
 
-        // ¿Tocó una ficha propia que se puede mover? → se selecciona (o cambia la selección)
+      
         if (p != null && p.getBando() == partida.getTurno() && p.puedeMoverse() == true) {
             filaSeleccionada = fila;
             columnaSeleccionada = columna;
@@ -213,12 +207,11 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
             return;
         }
 
-        // Si no hay ficha seleccionada, no pasa nada
         if (filaSeleccionada == -1) {
             return;
         }
 
-        // ----- 2º clic: intentar mover o atacar -----
+     
         try {
             partida.moverPieza(filaSeleccionada, columnaSeleccionada, fila, columna);
 
@@ -235,7 +228,7 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
                 espera.start();
             }
 
-            // ¿Terminó la partida?
+            // si termino partida
             if (partida.getGanador() != null) {
                 refrescar();
                 if (partida.getGanador() == Bando.Heroes) {
@@ -257,8 +250,7 @@ public class VentanaJuego extends javax.swing.JFrame implements Refrescar {
             cambio.start();
 
         } catch (MovimientoInvalidoException ex) {
-            // REQ-07: se atrapa la excepción propia. En vez de mostrar un mensaje,
-            // solo se quita la selección (las casillas válidas ya se ven en verde).
+          
             filaSeleccionada = -1;
             columnaSeleccionada = -1;
         }

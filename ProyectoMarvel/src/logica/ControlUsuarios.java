@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import modelo.Bando;
 import modelo.Jugador;
 
-/**
- * Administra a todos los jugadores del sistema (crear, login, cambiar password, eliminar)
- * y guarda el historial global de partidas para las estadísticas de Universo Marvel.
- */
+
 public class ControlUsuarios {
 
     //  ATRIBUTOS 
@@ -24,7 +21,7 @@ public class ControlUsuarios {
         listaJugadores = new ArrayList<>();
     }
 
-    //  JUGADORES 
+   
 
     // Busca un jugador por su username  
     public Jugador buscarjugador(String username) {

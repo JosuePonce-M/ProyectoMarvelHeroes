@@ -141,7 +141,7 @@ public class CrearPlayer extends javax.swing.JFrame {
         String contrasena ;
         
       try {
-    //  leer el texto de los dos campos
+   
     username = txtUsername.getText() ;
     contrasena = new String(txtContrasena.getPassword());
     if (username.trim().equals("")) {

@@ -1,8 +1,6 @@
 
 package ventanas;
-/**
- * Mi Perfil: muestra los datos del jugador (sin el password) y su historial de partidas,
- */
+
 import logica.ControlUsuarios ;
 import modelo.Jugador ;
 import excepciones.PasswordInvalidoException ;

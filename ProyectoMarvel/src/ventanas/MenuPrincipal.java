@@ -1,9 +1,6 @@
 
 package ventanas;
-/**
- * Menú principal: aparece después de iniciar sesión.
- * 
- */
+
 import logica.ControlUsuarios ;
 import modelo.Jugador ;
 import javax.swing.JOptionPane ;
